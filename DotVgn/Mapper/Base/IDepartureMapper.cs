@@ -1,7 +1,7 @@
-﻿using dotVGN.Models;
-using dotVGN.Models.API;
+﻿using DotVgn.Models;
+using DotVgn.Models.API;
 
-namespace dotVGN.Mapper.Base;
+namespace DotVgn.Mapper.Base;
 
 /// <summary>
 /// Converts departure API DTOs into strongly typed departure objects.

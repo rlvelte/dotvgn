@@ -1,4 +1,4 @@
-﻿namespace dotVGN.Queries.Base;
+﻿namespace DotVgn.Queries.Base;
 
 /// <summary>
 /// Defines a contract for building a relative URI extension string that includes query parameters.

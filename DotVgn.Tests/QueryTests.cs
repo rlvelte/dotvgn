@@ -1,10 +1,10 @@
-using dotVGN.Client;
-using dotVGN.Mapper;
-using dotVGN.Models.Enumerations;
-using dotVGN.Queries;
+using DotVgn.Client;
+using DotVgn.Mapper;
+using DotVgn.Models.Enumerations;
+using DotVgn.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace DotVgn.Tests.ClientTests;
+namespace DotVgn.Tests;
 
 [TestClass]
 public class QueryTests {

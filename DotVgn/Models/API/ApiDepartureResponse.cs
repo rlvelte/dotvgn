@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace dotVGN.Models.API;
+namespace DotVgn.Models.API;
 
 /// <summary>
 /// The response that the VAG interface sends back to the client.

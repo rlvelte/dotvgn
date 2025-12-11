@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
-using dotVGN.Queries.Base;
+using DotVgn.Queries.Base;
 
-namespace dotVGN.Queries;
+namespace DotVgn.Queries;
 
 /// <summary>
 /// Defines a query to search for stations by name or by geo-coordinates.

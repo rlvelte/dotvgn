@@ -1,6 +1,6 @@
-﻿using dotVGN.Models.Enumerations;
+﻿using DotVgn.Models.Enumerations;
 
-namespace dotVGN.Models;
+namespace DotVgn.Models;
 
 /// <summary>
 /// Represents a specific station in the VGN network.

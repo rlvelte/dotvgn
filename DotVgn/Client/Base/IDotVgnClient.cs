@@ -1,7 +1,7 @@
-﻿using dotVGN.Models;
-using dotVGN.Queries;
+﻿using DotVgn.Models;
+using DotVgn.Queries;
 
-namespace dotVGN.Client.Base;
+namespace DotVgn.Client.Base;
 
 /// <summary>
 /// Abstraction for the VGN API client.

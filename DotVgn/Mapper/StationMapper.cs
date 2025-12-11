@@ -1,9 +1,9 @@
-﻿using dotVGN.Mapper.Base;
-using dotVGN.Models;
-using dotVGN.Models.API;
-using dotVGN.Models.Enumerations;
+﻿using DotVgn.Mapper.Base;
+using DotVgn.Models;
+using DotVgn.Models.API;
+using DotVgn.Models.Enumerations;
 
-namespace dotVGN.Mapper;
+namespace DotVgn.Mapper;
 
 /// <summary>
 /// Default implementation for converting station API DTOs into domain models.

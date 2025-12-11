@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dotVGN\DotVgn.csproj" />
+    <ProjectReference Include="..\DotVgn\DotVgn.csproj" />
   </ItemGroup>
 
   <ItemGroup>

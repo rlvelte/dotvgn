@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 
-namespace dotVGN.Client;
+namespace DotVgn.Client;
 
 /// <summary>
 /// Configuration options for the DotVgnClient.

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace dotVGN.Models.API;
+namespace DotVgn.Models.API;
 
 /// <summary>
 /// Information about metadata of the response.

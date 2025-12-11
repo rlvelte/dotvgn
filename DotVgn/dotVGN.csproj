@@ -11,9 +11,9 @@
     <Description>.NET client library for VGN API.</Description>
     <PackageTags>vgn;traffic;api;client</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/rlvelte/dotvgn</RepositoryUrl>
+    <RepositoryUrl>https://github.com/rlvelte/DotVgn</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/rlvelte/dotvgn</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/rlvelte/DotVgn</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>

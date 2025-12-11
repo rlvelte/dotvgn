@@ -1,15 +1,15 @@
-﻿using dotVGN.Models;
-using dotVGN.Models.API;
+﻿using DotVgn.Models;
+using DotVgn.Models.API;
 using System.Net;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using dotVGN.Client.Base;
-using dotVGN.Mapper.Base;
-using dotVGN.Models.Exceptions;
+using DotVgn.Client.Base;
+using DotVgn.Mapper.Base;
+using DotVgn.Models.Exceptions;
 using Microsoft.Extensions.Options;
-using dotVGN.Queries;
+using DotVgn.Queries;
 
-namespace dotVGN.Client;
+namespace DotVgn.Client;
 
 /// <summary>
 /// Default implementation of the VGN/VAG API client.
