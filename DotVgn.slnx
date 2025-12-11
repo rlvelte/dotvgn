@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="dotVGN/dotVGN.csproj" DisplayName="DotVgn" />
+  <Project Path="dotVGN_Tests/DotVgn.Tests.csproj" />
+</Solution>
