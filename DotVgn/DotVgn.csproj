@@ -20,6 +20,8 @@
 
     <PackageOutputPath>$(ProjectDir)../Nupkgs</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyName>DotVgn</AssemblyName>
+    <RootNamespace>DotVgn</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
