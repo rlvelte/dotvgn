@@ -5,32 +5,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>DotVgn</PackageId>
+    <PackageId>dotvgn</PackageId>
     <Version>1.0.0</Version>
+      
+    <Title>DotVGN</Title>
     <Authors>Robin L. Velte</Authors>
-    <Description>.NET client library for VGN API.</Description>
-    <PackageTags>vgn;traffic;api;client</PackageTags>
+    <Description>.NET client for VGN API.</Description>
+    <PackageTags>vgn;traffic;client</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/rlvelte/DotVgn</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/rlvelte/DotVgn</PackageProjectUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
+    <LangVersion>default</LangVersion>
 
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="" />
-    <None Include="icon.png" Pack="true" PackagePath="" />
-    <None Include="LICENSE" Pack="true" PackagePath="" />
-  </ItemGroup>
+    <PackageOutputPath>$(ProjectDir)../Nupkgs</PackageOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
   </ItemGroup>
-
 </Project>
