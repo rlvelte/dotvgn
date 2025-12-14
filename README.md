@@ -1,3 +1,5 @@
+<img src="https://i.imgur.com/hwplHVj.png" width=200>
+
 # DotVGN - .NET client for the VGN/VAG API
 Pragmatic client to query the VGN/VAG public transport API for:
 - Stations (by name or geo)
