@@ -8,25 +8,24 @@ namespace DotVgn.Mapper;
 /// <summary>
 /// Default implementation for converting station API DTOs into domain models.
 /// </summary>
-public sealed class StationMapper : IStationMapper {
+internal sealed class StationMapper : IStationMapper {
     /// <inheritdoc />
     public IReadOnlyList<Station> Map(IEnumerable<ApiStationResponse.StationResponse> source) {
-        var result = new List<Station>();
+        return source.Select(Map).ToList();
+    }
 
-        foreach (var response in source) {
-            var transports = string.IsNullOrWhiteSpace(response.Transports) ? [TransportType.Unknown] : response.Transports
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(t => Enum.TryParse<TransportType>(t.Trim(), true, out var parsed) ? parsed : TransportType.Unknown)
-                .ToList();
-
-            result.Add(new Station(
-                response.Name,
-                response.VgnId,
-                response.Latitude,
-                response.Longitude,
-                transports));
-        }
-
-        return result;
+    /// <inheritdoc />
+    public Station Map(ApiStationResponse.StationResponse source) {
+        var transports = string.IsNullOrWhiteSpace(source.Transports) ? [TransportType.Unknown] : source.Transports
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(t => Enum.TryParse<TransportType>(t.Trim(), true, out var parsed) ? parsed : TransportType.Unknown)
+            .ToList();
+        
+        return new Station(
+            source.Name,
+            source.VgnId,
+            source.Latitude,
+            source.Longitude,
+            transports);
     }
 }

@@ -8,26 +8,25 @@ namespace DotVgn.Mapper;
 /// <summary>
 /// Default implementation for converting departure API DTOs into domain models.
 /// </summary>
-public sealed class DepartureMapper : IDepartureMapper {
+internal sealed class DepartureMapper : IDepartureMapper {
     /// <inheritdoc />
     public IReadOnlyList<Departure> Map(IEnumerable<ApiDepartureResponse.DepartureResponse> source) {
-        var result = new List<Departure>();
+        return source.Select(Map).ToList();
+    }
 
-        foreach (var r in source) {
-            var transport = Enum.TryParse<TransportType>(r.Transport.Trim(), true, out var parsed) ? parsed : TransportType.Unknown;
-            result.Add(new Departure(
-                r.Line,
-                r.StopPoint,
-                r.Direction,
-                r.DirectionDescription,
-                r.Date.LocalDateTime,
-                r.DepartureTimePlanned.LocalDateTime,
-                r.DepartureTimeActual.LocalDateTime,
-                transport,
-                r.TripNumber,
-                r.OccupationLevel));
-        }
-
-        return result;
+    /// <inheritdoc />
+    public Departure Map(ApiDepartureResponse.DepartureResponse source) {
+        var transport = Enum.TryParse<TransportType>(source.Transport.Trim(), true, out var parsed) ? parsed : TransportType.Unknown;
+        return new Departure(
+            source.Line,
+            source.StopPoint,
+            source.Direction,
+            source.DirectionDescription,
+            source.Date.LocalDateTime,
+            source.DepartureTimePlanned.LocalDateTime,
+            source.DepartureTimeActual.LocalDateTime,
+            transport,
+            source.TripNumber,
+            source.OccupationLevel);
     }
 }
