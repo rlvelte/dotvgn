@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+ideas.md
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -40,6 +41,7 @@ bld/
 # Visual Studio 2017 auto generated files
 Generated\ Files/
 TestResult/
+Nupkgs/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -98,6 +100,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.DS_Store
 
 # Chutzpah Test files
 _Chutzpah*

@@ -1,16 +1,17 @@
 ﻿using System.Text.Json.Serialization;
+using DotVgn.Models.API.Additional;
 
 namespace DotVgn.Models.API;
 
 /// <summary>
-/// The response that the VAG interface sends back to the client. Contains only primitive data types.
+/// The station response that the VAG interface sends back to the client.
 /// </summary>
-public record ApiStationResponse {
+internal record ApiStationResponse {
     /// <summary>
     /// Information about metadata of the response.
     /// </summary>
     [JsonPropertyName("Metadata")]
-    public required ApiMetadataResponse Metadata { get; init; }
+    public required ApiMetadata Metadata { get; init; }
 
     /// <summary>
     /// All stations that are responses for the query.

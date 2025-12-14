@@ -1,22 +1,23 @@
 ﻿using System.Text.Json.Serialization;
+using DotVgn.Models.API.Additional;
 
 namespace DotVgn.Models.API;
 
 /// <summary>
-/// The response that the VAG interface sends back to the client.
+/// The departure response that the VAG interface sends back to the client.
 /// </summary>
-public record ApiDepartureResponse {
+internal record ApiDepartureResponse {
     /// <summary>
     /// Information about metadata of the response.
     /// </summary>
     [JsonPropertyName("Metadata")]
-    public required ApiMetadataResponse Metadata { get; init; }
+    public required ApiMetadata Metadata { get; init; }
 
     /// <summary>
     /// All departures that are responses for the query.
     /// </summary>
     [JsonPropertyName("Abfahrten")]
-    public required IEnumerable<DepartureResponse> Departures { get; init; }
+    public required IReadOnlyList<DepartureResponse> Departures { get; init; }
 
     /// <summary>
     /// A single departure response entry.

@@ -6,7 +6,7 @@ namespace DotVgn.Models;
 /// Represents a specific departure from a station.
 /// </summary>
 /// <param name="Line">The line on which the vehicle departs.</param>
-/// <param name="StopPoint">The point on which the vehicle stops. (e.g. Platform 1)</param>
+/// <param name="StopPoint">The point at which the vehicle stops. (e.g., Platform 1)</param>
 /// <param name="Direction">The direction the vehicle drives to. (VGN uses "Richtung1", "Richtung2" etc.)</param>
 /// <param name="DirectionDescription">The Final destination name.</param>
 /// <param name="Date">The date of the departure.</param>

@@ -32,7 +32,7 @@ public sealed record StationQuery : IQuery {
     /// </summary>
     /// <param name="name">The station name.</param>
     public StationQuery(string name) {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
+        Name = name;
     }
 
     /// <summary>

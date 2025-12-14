@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 
-namespace DotVgn.Client;
+namespace DotVgn.Client.Additional;
 
 /// <summary>
 /// Configuration options for the DotVgnClient.
@@ -23,6 +23,19 @@ public sealed class DotVgnClientOptions : IOptions<DotVgnClientOptions> {
             new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         }
     };
+
+    /// <summary>
+    /// Time to keep station query results cached in memory. Set to TimeSpan.Zero or negative to disable caching.
+    /// Default is 30 seconds.
+    /// </summary>
+    public TimeSpan StationCacheTtl { get; set; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// Maximum number of parallel HTTP requests used by batch operations
+    /// such as GetDeparturesForStationsAsync. Values less than 1 will be coerced to 1.
+    /// Default is 4.
+    /// </summary>
+    public int MaxParallelRequestsForBatch { get; set; } = 4;
 
     /// <summary>
     /// Returns this instance as the options value.
