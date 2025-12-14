@@ -1,18 +1,25 @@
-name: Build & Pack NuGet
+name: Release & Publish NuGet
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -26,13 +33,23 @@ jobs:
         run: dotnet test --configuration Release --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack \
-              --configuration Release \
-              --no-build \
-              --output ./artifacts
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          dotnet pack \
+            --configuration Release \
+            --no-build \
+            --output ./artifacts \
+            -p:PackageVersion=$VERSION
 
-      - name: Upload NuGet package artifact
-        uses: actions/upload-artifact@v4
+      - name: Publish package to GitHub Packages
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: nuget-package
-          path: ./artifacts/*.nupkg
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: ./artifacts/*.nupkg
