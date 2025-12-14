@@ -4,7 +4,7 @@ using DotVgn.Models.Enumerations;
 using DotVgn.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace DotVgn.Tests;
+namespace DotVgn.Tests.Client;
 
 /// TODO: Testing strategy
 /// - Unit: Verify TripQuery builds correct relative URLs with and without date. Avoid brittle date formatting assertions.

@@ -84,10 +84,10 @@ public class ClientBase {
 
         var body = await response.Content.ReadAsStringAsync(cancellation).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode) {
-            throw new DotVgnApiException(response.StatusCode, completeUri, body);
+            throw new DotVgnApiException(response.StatusCode, completeUri);
         }
 
         var result = JsonSerializer.Deserialize<T>(body, _options.Value.Json);
-        return result ?? throw new DotVgnApiException(HttpStatusCode.OK, completeUri, "Empty or invalid payload.");
+        return result ?? throw new DotVgnApiException(HttpStatusCode.OK, completeUri);
     }
 }

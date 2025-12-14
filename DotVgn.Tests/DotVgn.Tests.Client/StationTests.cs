@@ -3,7 +3,7 @@ using DotVgn.Client.Additional;
 using DotVgn.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace DotVgn.Tests;
+namespace DotVgn.Tests.Client;
 
 /// TODO: Testing strategy
 /// - Unit: Verify StationQuery builds correct relative URLs for name and geo queries.

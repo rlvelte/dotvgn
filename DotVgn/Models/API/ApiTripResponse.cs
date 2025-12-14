@@ -35,7 +35,7 @@ internal record ApiTripResponse {
     /// All stops that are on this trip.
     /// </summary>
     [JsonPropertyName("Fahrtverlauf")]
-    public IEnumerable<StopResponse> Stops { get; init; }
+    public required IEnumerable<StopResponse> Stops { get; init; }
     
     /// <summary>
     /// A single stop response entry.

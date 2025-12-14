@@ -18,7 +18,7 @@ public sealed record DepartureQuery : IQuery {
     private string? Line { get; }
 
     /// <summary>
-    /// Optional transport filters. If set, line must be null.
+    /// Optional transport filters. If set, the line must be null.
     /// </summary>
     private TransportType[]? Transports { get; }
 
@@ -79,7 +79,7 @@ public sealed record DepartureQuery : IQuery {
     /// <summary>
     /// Converts the transports array to a comma-separated string.
     /// </summary>
-    private string ParseTransports() => string.Join(",", Transports!);
+    private string ParseTransports() => string.Join(",", Transports!.Where(t => t != TransportType.Unknown));
 
     /// <inheritdoc />
     public string GetRelativeUriExtension() {

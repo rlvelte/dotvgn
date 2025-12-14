@@ -1,4 +1,8 @@
 <Solution>
-  <Project Path="DotVgn.Tests/DotVgn.Tests.csproj" />
+  <Folder Name="/DotVgn.Tests/">
+    <Project Path="DotVgn.Tests/DotVgn.Tests.Analyzers/DotVgn.Tests.Analyzers.csproj" />
+    <Project Path="DotVgn.Tests/DotVgn.Tests.Client/DotVgn.Tests.Client.csproj" />
+  </Folder>
+  <Project Path="DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
   <Project Path="DotVgn/DotVgn.csproj" />
 </Solution>
