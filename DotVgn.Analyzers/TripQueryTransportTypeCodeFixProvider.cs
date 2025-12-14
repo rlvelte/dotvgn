@@ -12,12 +12,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace DotVgn.Analyzers;
 
 /// <summary>
-/// 
+/// Provides code fixes for the <see cref="TripQueryTransportTypeAnalyzer"/> diagnostics.
 /// </summary>
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TripQueryTransportTypeCodeFixProvider)), Shared]
 public class TripQueryTransportTypeCodeFixProvider : CodeFixProvider {
     /// <summary>
-    /// The diagnostics id this code fix provider can address.
+    /// The diagnostics ids this code fix provider can address.
     /// </summary>
     public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(TripQueryTransportTypeAnalyzer.DiagnosticId);
 
@@ -27,55 +27,45 @@ public class TripQueryTransportTypeCodeFixProvider : CodeFixProvider {
     /// <inheritdoc />
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context) {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-        if (root == null) {
+        if (root == null || !context.Diagnostics.Any()) {
             return;
         }
 
-        var diagnostic = context.Diagnostics.First();
-        var diagnosticSpan = diagnostic.Location.SourceSpan;
-        if (root.FindNode(diagnosticSpan) is not MemberAccessExpressionSyntax expression) {
-            return;
+        foreach (var diagnostic in context.Diagnostics) {
+            var node = root.FindNode(diagnostic.Location.SourceSpan);
+            if (node is ArgumentSyntax arg) {
+                node = arg.Expression;
+            }
+            
+            if (node is not MemberAccessExpressionSyntax and not IdentifierNameSyntax) {
+                continue;
+            }
+                
+            var transportTypes = new[] { "Bus", "Tram", "UBahn" };
+            foreach (var type in transportTypes) {
+                context.RegisterCodeFix(
+                    CodeAction.Create(
+                        title: $"Change to TransportType.{type}",
+                        cancellation => ReplaceTransportTypeAsync(context.Document, node, type, cancellation),
+                        equivalenceKey: type),
+                    diagnostic);
+            }
         }
-
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: "Change to TransportType.Bus",
-                cancellation => ReplaceTransportTypeAsync(context.Document, expression, "Bus", cancellation),
-                equivalenceKey: "Bus"),
-            diagnostic);
-
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: "Change to TransportType.Tram",
-                cancellation => ReplaceTransportTypeAsync(context.Document, expression, "Tram", cancellation),
-                equivalenceKey: "Tram"),
-            diagnostic);
-
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: "Change to TransportType.UBahn",
-                cancellation => ReplaceTransportTypeAsync(context.Document, expression, "UBahn", cancellation),
-                equivalenceKey: "UBahn"),
-            diagnostic);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="document"></param>
-    /// <param name="memberAccess"></param>
-    /// <param name="newTransportType"></param>
-    /// <param name="cancellation"></param>
-    /// <returns></returns>
-    private static async Task<Document> ReplaceTransportTypeAsync(Document document, MemberAccessExpressionSyntax memberAccess, string newTransportType, CancellationToken cancellation) {
+        
+    private static async Task<Document> ReplaceTransportTypeAsync(Document document, SyntaxNode node, string newTransportType, CancellationToken cancellation) {
         var root = await document.GetSyntaxRootAsync(cancellation).ConfigureAwait(false);
-        if (root == null) {
+        if (root == null)
             return document;
-        }
 
-        var newMemberAccess = memberAccess.WithName(SyntaxFactory.IdentifierName(newTransportType).WithTriviaFrom(memberAccess.Name));
-        var newRoot = root.ReplaceNode(memberAccess, newMemberAccess);
+        var newNode = node switch {
+            MemberAccessExpressionSyntax memberAccess => memberAccess.WithName(SyntaxFactory.IdentifierName(newTransportType).WithTriviaFrom(memberAccess.Name)),
+            IdentifierNameSyntax identifier => SyntaxFactory.IdentifierName(newTransportType).WithTriviaFrom(identifier),
+            _ => node
+        };
 
+        var newRoot = root.ReplaceNode(node, newNode);
         return document.WithSyntaxRoot(newRoot);
     }
 }
