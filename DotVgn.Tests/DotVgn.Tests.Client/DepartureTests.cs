@@ -4,7 +4,7 @@ using DotVgn.Models.Enumerations;
 using DotVgn.Queries;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace DotVgn.Tests;
+namespace DotVgn.Tests.Client;
 
 /// TODO: Testing strategy
 /// - Unit: Verify DepartureQuery builds correct relative URLs for line-based and transport-based queries; validate argument rules.

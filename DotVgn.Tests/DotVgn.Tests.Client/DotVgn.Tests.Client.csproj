@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotVgn\DotVgn.csproj" />
+    <ProjectReference Include="..\..\DotVgn\DotVgn.csproj" />
   </ItemGroup>
-
 </Project>
