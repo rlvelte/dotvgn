@@ -3,7 +3,7 @@
 # DotVGN - .NET Client for VAG/VGN API
 ![NuGet](https://img.shields.io/nuget/v/DotVgn?label=DotVgn&style=flat)
 
-Lightweight .NET client for the VGN/VAG public transport API. Query stations, departures and trips with built-in request throttling and optional caching.
+Lightweight .NET client for the VGN/VAG public transport API.
 
 > [!IMPORTANT]
 > This project originated from a personal application. Development follows my own needs rather than a fixed roadmap. Contributions and forks are welcome.
