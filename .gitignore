@@ -3,16 +3,19 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Stryker.NET
+StrykerOutput/
+
 # User-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-ideas.md
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+*.DotSettings
 
 # Mono auto generated files
 mono_crash.*
@@ -40,8 +43,6 @@ bld/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
-TestResult/
-Nupkgs/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -50,12 +51,20 @@ Nupkgs/
 # NUnit
 *.VisualState.xml
 TestResult.xml
+TestResult/
 nunit-*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
+
+# Environment
+*.env
+sample.json
+sample2.json
+sample3.json
+spec.yaml
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
@@ -74,6 +83,7 @@ StyleCopReport.xml
 # Files built by Visual Studio
 *_i.c
 *_p.c
+*.sqlite
 *_h.h
 *.ilk
 *.meta
@@ -167,6 +177,10 @@ AutoTest.Net/
 # Web workbench (sass)
 .sass-cache/
 
+# Claude
+CLAUDE.md
+.claude/
+
 # Installshield output folder
 [Ee]xpress/
 
@@ -198,6 +212,7 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
+nupkgs/
 # NuGet Symbol Packages
 *.snupkg
 # The packages folder can be ignored because of Package Restore

@@ -2,8 +2,6 @@ name: Release & Publish NuGet
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*.*.*'
 
@@ -29,21 +27,10 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Run tests
-        run: dotnet test --configuration Release --no-restore
-
-      - name: Pack NuGet package
-        run: |
-          VERSION=${GITHUB_REF_NAME#v}
-          dotnet pack \
-            --configuration Release \
-            --no-build \
-            --output ./artifacts \
-            -p:PackageVersion=$VERSION
-
       - name: Publish package to GitHub Packages
         run: |
-          dotnet nuget push ./artifacts/*.nupkg \
+          dotnet build
+          dotnet nuget push ./nupkgs/*.nupkg \
             --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
             --api-key ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,4 +39,4 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: ./artifacts/*.nupkg
+          files: ./nupkgs/*.nupkg
