@@ -1,8 +1,6 @@
 <Solution>
-  <Folder Name="/DotVgn.Tests/">
-    <Project Path="DotVgn.Tests/DotVgn.Tests.Analyzers/DotVgn.Tests.Analyzers.csproj" />
-    <Project Path="DotVgn.Tests/DotVgn.Tests.Client/DotVgn.Tests.Client.csproj" />
-  </Folder>
-  <Project Path="DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
-  <Project Path="DotVgn/DotVgn.csproj" />
+  <Project Path="samples/DotVgn.Samples.Hub/DotVgn.Samples.Hub.csproj" />
+  <Project Path="source/DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
+  <Project Path="source/DotVgn.Client/DotVgn.csproj" />
+  <Project Path="source/DotVgn.Data/DotVgn.Data.csproj" />
 </Solution>
