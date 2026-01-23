@@ -33,7 +33,7 @@ public sealed class VgnClient : ClientBase {
     /// Client for accessing VAG/VGN-API.
     /// </summary>
     /// <param name="options">Configuration options for the client.</param>
-    public VgnClient(ClientOptions options) : base(options){
+    public VgnClient(ClientOptions? options = null) : base(options){
         _stationMapper = new StationMapper();
         _departureMapper = new DepartureMapper();
         _tripMapper = new TripMapper();

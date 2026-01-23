@@ -32,7 +32,8 @@ public class ClientBase {
     /// Initializes a new instance of the ClientBase class.
     /// </summary>
     /// <param name="options">The options to use.</param>
-    protected ClientBase(ClientOptions options) {
+    protected ClientBase(ClientOptions? options = null) {
+        options ??= new ClientOptions();
         _http = new HttpClient {
             BaseAddress = options.BaseEndpoint,
         };

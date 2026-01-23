@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace DotVgn;
 
 /// <summary>
-/// Extension methods for setting up VGNClient services in an <see cref="IServiceCollection"/>.
+/// Extension methods for setting up VAG/VGN client services in an <see cref="IServiceCollection"/>.
 /// </summary>
 public static class ServiceCollectionExtensions {
     private const string OptionsName = "DotVgn.Client";

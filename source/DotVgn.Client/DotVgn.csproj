@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>dotvgn</PackageId>
+    <PackageId>DotVgn</PackageId>
     <Version>1.4.0</Version>
       
     <Title>DotVGN</Title>
@@ -22,6 +22,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+      
+    <PackageIcon>Icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,6 +43,11 @@
   </Target>
 
   <ItemGroup>
+    <None Include="..\..\Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>Icon.png</Link>
+    </None>
     <None Include="..\DotVgn.Analyzers\bin\$(Configuration)\netstandard2.0\DotVgn.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 </Project>
