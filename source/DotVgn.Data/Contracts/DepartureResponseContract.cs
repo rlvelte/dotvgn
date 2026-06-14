@@ -22,15 +22,15 @@ public record DepartureResponseContract {
     /// A single departure response entry.
     /// </summary>
     public record DepartureContract {
-        [JsonPropertyName("Linienname")] public required string Line { get; init; }
-        [JsonPropertyName("Haltepunkt")] public required string StopPoint { get; init; }
-        [JsonPropertyName("Richtung")] public required string Direction { get; init; }
-        [JsonPropertyName("Richtungstext")] public required string DirectionDescription { get; init; }
+        [JsonPropertyName("Linienname")] public string Line { get; init; } = "not supplied";
+        [JsonPropertyName("Haltepunkt")] public string StopPoint { get; init; } = "not supplied";
+        [JsonPropertyName("Richtung")] public string Direction { get; init; } = "not supplied";
+        [JsonPropertyName("Richtungstext")] public string DirectionDescription { get; init; } = "not supplied";
         [JsonPropertyName("AbfahrtszeitSoll")] public DateTimeOffset DepartureTimePlanned { get; init; }
         [JsonPropertyName("AbfahrtszeitIst")] public DateTimeOffset DepartureTimeActual { get; init; }
-        [JsonPropertyName("Produkt")] public required string Transport { get; init; }
+        [JsonPropertyName("Produkt")] public string Transport { get; init; } = "not supplied";
         [JsonPropertyName("Fahrtnummer")] public int TripNumber { get; init; }
         [JsonPropertyName("Betriebstag")] public DateTimeOffset Date { get; init; }
-        [JsonPropertyName("Besetzgrad")] public required string OccupationLevel { get; init; }
+        [JsonPropertyName("Besetzgrad")] public string OccupationLevel { get; init; } = "not supplied";
     }
 }
