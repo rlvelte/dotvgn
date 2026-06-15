@@ -3,34 +3,51 @@ name: Release & Publish NuGet
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 permissions:
   contents: write
   packages: write
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: 10.0.x
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.slnx') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
-      - name: Publish package to GitHub Packages
+      - name: Restore
+        run: dotnet restore DotVgn.slnx
+
+      - name: Build & pack (Release)
+        run: dotnet build DotVgn.slnx --configuration Release
+
+      - name: Run tests
+        run: dotnet test DotVgn.slnx --no-build --configuration Release
+
+      - name: Publish to GitHub Packages
         run: |
-          dotnet build
-          dotnet nuget push ./nupkgs/*.nupkg \
+          dotnet nuget push nupkgs/*.nupkg \
             --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
             --api-key ${{ secrets.GITHUB_TOKEN }}
 
@@ -39,4 +56,4 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: ./nupkgs/*.nupkg
+          files: nupkgs/*.nupkg
