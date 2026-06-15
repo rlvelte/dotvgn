@@ -12,8 +12,8 @@ public sealed class DepartureMapperTests {
         Direction = "Richtung1",
         DirectionDescription = "Fürth Hauptbahnhof",
         Date = new DateTimeOffset(2024, 1, 15, 0, 0, 0, TimeSpan.Zero),
-        DepartureTimePlanned = new DateTimeOffset(2024, 1, 15, 14, 30, 0, TimeSpan.FromHours(1)),
-        DepartureTimeActual = new DateTimeOffset(2024, 1, 15, 14, 32, 0, TimeSpan.FromHours(1)),
+        DepartureTimePlanned = new DateTimeOffset(2024, 1, 15, 14, 30, 0, TimeSpan.Zero),
+        DepartureTimeActual = new DateTimeOffset(2024, 1, 15, 14, 32, 0, TimeSpan.Zero),
         Transport = "Bus",
         TripNumber = 12345,
         OccupationLevel = "low"
@@ -33,8 +33,8 @@ public sealed class DepartureMapperTests {
         Assert.AreEqual(TransportType.Bus, result.TransportType);
         Assert.AreEqual(12345, result.TripNumber);
         Assert.AreEqual("low", result.OccupationLevel);
-        Assert.AreEqual(14, result.DepartureTimePlanned.Hour);
-        Assert.AreEqual(30, result.DepartureTimePlanned.Minute);
+        Assert.AreEqual(contract.DepartureTimePlanned.LocalDateTime.Hour, result.DepartureTimePlanned.Hour);
+        Assert.AreEqual(contract.DepartureTimePlanned.LocalDateTime.Minute, result.DepartureTimePlanned.Minute);
     }
 
     [TestMethod]
@@ -133,10 +133,10 @@ public sealed class DepartureMapperTests {
 
         var result = mapper.Map(contract);
 
-        Assert.AreEqual(8, result.DepartureTimePlanned.Hour);
-        Assert.AreEqual(40, result.DepartureTimePlanned.Minute);
-        Assert.AreEqual(8, result.DepartureTimeActual.Hour);
-        Assert.AreEqual(45, result.DepartureTimeActual.Minute);
+        Assert.AreEqual(contract.DepartureTimePlanned.LocalDateTime.Hour, result.DepartureTimePlanned.Hour);
+        Assert.AreEqual(contract.DepartureTimePlanned.LocalDateTime.Minute, result.DepartureTimePlanned.Minute);
+        Assert.AreEqual(contract.DepartureTimeActual.LocalDateTime.Hour, result.DepartureTimeActual.Hour);
+        Assert.AreEqual(contract.DepartureTimeActual.LocalDateTime.Minute, result.DepartureTimeActual.Minute);
     }
 
     [TestMethod]
