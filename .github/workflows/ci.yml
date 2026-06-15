@@ -56,10 +56,7 @@ jobs:
         run: dotnet build DotVgn.slnx --no-restore --configuration Release
 
       - name: Test
-        run: dotnet test DotVgn.slnx --no-build --configuration Release \
-              --logger "trx" \
-              --collect "XPlat Code Coverage" \
-              --results-directory TestResults/
+        run: dotnet test DotVgn.slnx --no-build --configuration Release --logger "trx" --collect "XPlat Code Coverage" --results-directory TestResults/
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
