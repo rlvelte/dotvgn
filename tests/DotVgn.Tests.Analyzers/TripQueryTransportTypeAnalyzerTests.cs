@@ -1,33 +1,32 @@
 using System.Threading.Tasks;
 using DotVgn.Analyzers;
 using Xunit;
-using VerifyCS = Microsoft.CodeAnalysis.CSharp.Testing.XUnit.CodeFixVerifier<DotVgn.Analyzers.TripQueryTransportTypeAnalyzer, DotVgn.Analyzers.TripQueryTransportTypeCodeFixProvider>;
+using VerifyCS = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<DotVgn.Analyzers.TripQueryTransportTypeAnalyzer, DotVgn.Analyzers.TripQueryTransportTypeCodeFixProvider, Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
 namespace DotVgn.Tests.Analyzers;
 
-// TODO Quick and dirty
 public class TripQueryTransportTypeAnalyzerTests {
     [Fact]
     public async Task ValidTransportTypes_NoDiagnostic() {
         var test = """
 
                    using System;
-                   namespace DotVgn.Queries {
+                   namespace DotVgn.Client.Queries {
                        public sealed record TripQuery {
-                           public TripQuery(DotVgn.Models.Enumerations.TransportType transportType, int tripNumber) { }
+                           public TripQuery(DotVgn.Client.Models.Enumerations.TransportType transportType, int tripNumber) { }
                        }
                    }
 
-                   namespace DotVgn.Models.Enumerations {
+                   namespace DotVgn.Client.Models.Enumerations {
                        public enum TransportType { Bus, Tram, UBahn, SBahn, RBahn }
                    }
 
                    namespace Test {
                        class Program {
                            void Method() {
-                               var query1 = new DotVgn.Queries.TripQuery(DotVgn.Models.Enumerations.TransportType.Bus, 123);
-                               var query2 = new DotVgn.Queries.TripQuery(DotVgn.Models.Enumerations.TransportType.Tram, 456);
-                               var query3 = new DotVgn.Queries.TripQuery(DotVgn.Models.Enumerations.TransportType.UBahn, 789);
+                               var query1 = new DotVgn.Client.Queries.TripQuery(DotVgn.Client.Models.Enumerations.TransportType.Bus, 123);
+                               var query2 = new DotVgn.Client.Queries.TripQuery(DotVgn.Client.Models.Enumerations.TransportType.Tram, 456);
+                               var query3 = new DotVgn.Client.Queries.TripQuery(DotVgn.Client.Models.Enumerations.TransportType.UBahn, 789);
                            }
                        }
                    }
@@ -41,20 +40,20 @@ public class TripQueryTransportTypeAnalyzerTests {
         var test = """
 
                    using System;
-                   namespace DotVgn.Queries {
+                   namespace DotVgn.Client.Queries {
                        public sealed record TripQuery {
-                           public TripQuery(DotVgn.Models.Enumerations.TransportType transportType, int tripNumber) { }
+                           public TripQuery(DotVgn.Client.Models.Enumerations.TransportType transportType, int tripNumber) { }
                        }
                    }
 
-                   namespace DotVgn.Models.Enumerations {
+                   namespace DotVgn.Client.Models.Enumerations {
                        public enum TransportType { Bus, Tram, UBahn, SBahn, RBahn }
                    }
 
                    namespace Test {
                        class Program {
                            void Method() {
-                               var query = new DotVgn.Queries.TripQuery({|#0:DotVgn.Models.Enumerations.TransportType.SBahn|}, 123);
+                               var query = new DotVgn.Client.Queries.TripQuery({|#0:DotVgn.Client.Models.Enumerations.TransportType.SBahn|}, 123);
                            }
                        }
                    }
@@ -72,20 +71,20 @@ public class TripQueryTransportTypeAnalyzerTests {
         var test = """
 
                    using System;
-                   namespace DotVgn.Queries {
+                   namespace DotVgn.Client.Queries {
                        public sealed record TripQuery {
-                           public TripQuery(DotVgn.Models.Enumerations.TransportType transportType, int tripNumber) { }
+                           public TripQuery(DotVgn.Client.Models.Enumerations.TransportType transportType, int tripNumber) { }
                        }
                    }
 
-                   namespace DotVgn.Models.Enumerations {
+                   namespace DotVgn.Client.Models.Enumerations {
                        public enum TransportType { Bus, Tram, UBahn, SBahn, RBahn }
                    }
 
                    namespace Test {
                        class Program {
                            void Method() {
-                               var query = new DotVgn.Queries.TripQuery({|#0:DotVgn.Models.Enumerations.TransportType.RBahn|}, 456);
+                               var query = new DotVgn.Client.Queries.TripQuery({|#0:DotVgn.Client.Models.Enumerations.TransportType.RBahn|}, 456);
                            }
                        }
                    }
@@ -103,20 +102,20 @@ public class TripQueryTransportTypeAnalyzerTests {
         var test = """
 
                    using System;
-                   namespace DotVgn.Queries {
+                   namespace DotVgn.Client.Queries {
                        public sealed record TripQuery {
-                           public TripQuery(DotVgn.Models.Enumerations.TransportType transportType, int tripNumber) { }
+                           public TripQuery(DotVgn.Client.Models.Enumerations.TransportType transportType, int tripNumber) { }
                        }
                    }
 
-                   namespace DotVgn.Models.Enumerations {
+                   namespace DotVgn.Client.Models.Enumerations {
                        public enum TransportType { Bus, Tram, UBahn, SBahn, RBahn }
                    }
 
                    namespace Test {
                        class Program {
                            void Method() {
-                               var query = new DotVgn.Queries.TripQuery({|#0:DotVgn.Models.Enumerations.TransportType.SBahn|}, 123);
+                               var query = new DotVgn.Client.Queries.TripQuery({|#0:DotVgn.Client.Models.Enumerations.TransportType.SBahn|}, 123);
                            }
                        }
                    }
@@ -125,20 +124,20 @@ public class TripQueryTransportTypeAnalyzerTests {
         var fixedCode = """
 
                         using System;
-                        namespace DotVgn.Queries {
+                        namespace DotVgn.Client.Queries {
                             public sealed record TripQuery {
-                                public TripQuery(DotVgn.Models.Enumerations.TransportType transportType, int tripNumber) { }
+                                public TripQuery(DotVgn.Client.Models.Enumerations.TransportType transportType, int tripNumber) { }
                             }
                         }
 
-                        namespace DotVgn.Models.Enumerations {
+                        namespace DotVgn.Client.Models.Enumerations {
                             public enum TransportType { Bus, Tram, UBahn, SBahn, RBahn }
                         }
 
                         namespace Test {
                             class Program {
                                 void Method() {
-                                    var query = new DotVgn.Queries.TripQuery(DotVgn.Models.Enumerations.TransportType.Bus, 123);
+                                    var query = new DotVgn.Client.Queries.TripQuery(DotVgn.Client.Models.Enumerations.TransportType.Bus, 123);
                                 }
                             }
                         }

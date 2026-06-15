@@ -1,11 +1,10 @@
 using System.Net;
-using DotVgn.Client;
-using DotVgn.Mapper;
-using DotVgn.Mapper.Base;
+using DotVgn.Client.Mapper;
+using DotVgn.Client.Mapper.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace DotVgn;
+namespace DotVgn.Client;
 
 /// <summary>
 /// Extension methods for setting up VAG/VGN client services in an <see cref="IServiceCollection"/>.
@@ -23,9 +22,6 @@ public static class ServiceCollectionExtensions {
         public IServiceCollection AddDotVgnClient(Action<ClientOptions> configuration) {
             ArgumentNullException.ThrowIfNull(services);
             ArgumentNullException.ThrowIfNull(configuration);
-
-            var options = new ClientOptions();
-            configuration(options);
 
             services.Configure(OptionsName, configuration);
             services.AddOptions<ClientOptions>(OptionsName)

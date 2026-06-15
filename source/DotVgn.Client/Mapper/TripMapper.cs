@@ -1,8 +1,8 @@
+using DotVgn.Client.Mapper.Base;
 using DotVgn.Data.Contracts;
 using DotVgn.Data.Models;
-using DotVgn.Mapper.Base;
 
-namespace DotVgn.Mapper;
+namespace DotVgn.Client.Mapper;
 
 /// <summary>
 /// Default implementation for converting trip API DTO into domain models.

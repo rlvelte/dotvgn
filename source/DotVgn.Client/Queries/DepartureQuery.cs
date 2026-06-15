@@ -1,7 +1,7 @@
-﻿using DotVgn.Data.Enumerations;
-using DotVgn.Queries.Base;
+﻿using DotVgn.Client.Queries.Base;
+using DotVgn.Data.Enumerations;
 
-namespace DotVgn.Queries;
+namespace DotVgn.Client.Queries;
 
 /// <summary>
 /// Defines a query to search for departures by line or by transport filters.

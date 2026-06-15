@@ -1,7 +1,7 @@
 ﻿using DotVgn.Data.Contracts;
 using DotVgn.Data.Models;
 
-namespace DotVgn.Mapper.Base;
+namespace DotVgn.Client.Mapper.Base;
 
 /// <summary>
 /// Converts departure API DTOs into strongly typed departure objects.

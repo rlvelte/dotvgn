@@ -1,7 +1,7 @@
 ﻿using DotVgn.Data.Contracts;
 using DotVgn.Data.Models;
 
-namespace DotVgn.Mapper.Base;
+namespace DotVgn.Client.Mapper.Base;
 
 /// <summary>
 /// Converts station API DTOs into strongly typed station objects.

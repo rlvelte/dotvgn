@@ -1,9 +1,9 @@
-﻿using DotVgn.Data.Contracts;
+﻿using DotVgn.Client.Mapper.Base;
+using DotVgn.Data.Contracts;
 using DotVgn.Data.Enumerations;
 using DotVgn.Data.Models;
-using DotVgn.Mapper.Base;
 
-namespace DotVgn.Mapper;
+namespace DotVgn.Client.Mapper;
 
 /// <summary>
 /// Default implementation for converting departure API DTOs into domain models.

@@ -2,8 +2,8 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using DotVgn.Client.Queries.Base;
 using DotVgn.Data.Exceptions;
-using DotVgn.Queries.Base;
 
 namespace DotVgn.Client.Base;
 
@@ -37,7 +37,8 @@ public class ClientBase {
         _http = new HttpClient {
             BaseAddress = options.BaseEndpoint,
         };
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("DotBahn/1.0 (+https://github.com/rlvelte/dotbahn)");;
+        
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("DotBahn/1.0 (+https://github.com/rlvelte/dotbahn)");
     }
 
     /// <summary>
@@ -54,26 +55,15 @@ public class ClientBase {
     /// </exception>
     protected async Task<IReadOnlyList<(TItem Key, TValue Value)>> SendRequestsAsync<TItem, TValue>(IEnumerable<TItem> queries, CancellationToken cancellation) where TItem : IQuery {
         var result = new ConcurrentDictionary<TItem, TValue>();
-        var semaphore = new SemaphoreSlim(4);
-
         var queryList = queries.ToList();
-        var tasks = new List<Task>(queryList.Count);
-        
-        tasks.AddRange(queryList.Select(item => Task.Run(async () => {
-            await semaphore.WaitAsync(cancellation);
-            
-            try {
-                result[item] = await SendRequestAsync<TValue>(item.GetRelativeUriExtension(), cancellation);
-            }
-            catch (Exception ex) when (ex is not OperationCanceledException) {
-                throw;
-            }
-            finally {
-                semaphore.Release();
-            }
-        }, cancellation)));
 
-        await Task.WhenAll(tasks);
+        await Parallel.ForEachAsync(queryList, new ParallelOptions {
+            CancellationToken = cancellation
+        }, async (item, ct) => {
+            var value = await SendRequestAsync<TValue>(item.GetRelativeUriExtension(), ct);
+            result[item] = value;
+        });
+
         return result.Select(kv => (kv.Key, kv.Value)).ToList();
     }
 
