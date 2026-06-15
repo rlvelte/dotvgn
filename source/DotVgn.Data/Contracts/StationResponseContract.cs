@@ -22,11 +22,11 @@ public record StationResponseContract {
     /// A single station response entry.
     /// </summary>
     public record StationContract {
-        [JsonPropertyName("Haltestellenname")] public required string Name { get; init; }
-        [JsonPropertyName("VAGKennung")] public required string VagId { get; init; }
-        [JsonPropertyName("VGNKennung")] public required int VgnId { get; init; }
-        [JsonPropertyName("Latitude")] public required double Latitude { get; init; }
-        [JsonPropertyName("Longitude")] public required double Longitude { get; init; }
-        [JsonPropertyName("Produkte")] public required string? Transports { get; init; }
+        [JsonPropertyName("Haltestellenname")] public string Name { get; init; } = string.Empty;
+        [JsonPropertyName("VAGKennung")] public string VagId { get; init; } = string.Empty;
+        [JsonPropertyName("VGNKennung")] public int VgnId { get; init; }
+        [JsonPropertyName("Latitude")] public double Latitude { get; init; }
+        [JsonPropertyName("Longitude")] public double Longitude { get; init; }
+        [JsonPropertyName("Produkte")] public string? Transports { get; init; }
     }
 }
