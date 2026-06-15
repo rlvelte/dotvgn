@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>DotVgn</PackageId>
-    <Version>1.4.0</Version>
+    <PackageId>DotVgn.Client</PackageId>
+    <Version>1.4.2</Version>
       
     <Title>DotVGN</Title>
     <Authors>Robin L. Velte</Authors>
@@ -34,6 +34,10 @@
   <ItemGroup>
     <ProjectReference Include="..\DotVgn.Analyzers\DotVgn.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     <ProjectReference Include="..\DotVgn.Data\DotVgn.Data.csproj" PrivateAssets="all"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DotVgn.Tests.Client" />
   </ItemGroup>
 
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">

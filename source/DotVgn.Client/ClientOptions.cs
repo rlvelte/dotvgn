@@ -1,4 +1,4 @@
-﻿namespace DotVgn;
+﻿namespace DotVgn.Client;
 
 /// <summary>
 /// Configuration options for the DotVgnClient.

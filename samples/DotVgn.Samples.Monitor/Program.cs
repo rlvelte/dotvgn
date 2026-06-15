@@ -1,7 +1,7 @@
 using DotVgn.Client;
-using DotVgn.Queries;
-using DotVgn.Data.Models;
+using DotVgn.Client.Queries;
 using DotVgn.Data.Enumerations;
+using DotVgn.Data.Models;
 using Spectre.Console;
 
 if (args.Length == 0) {

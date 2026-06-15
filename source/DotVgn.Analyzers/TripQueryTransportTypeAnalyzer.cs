@@ -54,9 +54,32 @@ public class TripQueryTransportTypeAnalyzer : DiagnosticAnalyzer {
         if (arguments == null || arguments.Value.Count == 0) {
             return;
         }
-        
-        var expression = arguments.Value[0].Expression; // TODO: Get by name not by position...
-        if (expression is not MemberAccessExpressionSyntax access) {
+
+        var symbolInfo = context.SemanticModel.GetSymbolInfo(creation, context.CancellationToken);
+        if (symbolInfo.Symbol is not IMethodSymbol { MethodKind: MethodKind.Constructor } constructor) {
+            return;
+        }
+
+        var transportTypeIndex = -1;
+        for (var i = 0; i < constructor.Parameters.Length; i++) {
+            if (constructor.Parameters[i].Name != "transportType") {
+                continue;
+            }
+
+            transportTypeIndex = i;
+            break;
+        }
+        if (transportTypeIndex < 0 || transportTypeIndex >= arguments.Value.Count) {
+            return;
+        }
+
+        var argSyntax = arguments.Value[transportTypeIndex];
+
+        if (argSyntax.NameColon is { Name.Identifier.ValueText: not "transportType" }) {
+            return;
+        }
+
+        if (argSyntax.Expression is not MemberAccessExpressionSyntax access) {
             return;
         }
 
@@ -65,7 +88,7 @@ public class TripQueryTransportTypeAnalyzer : DiagnosticAnalyzer {
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, expression.GetLocation(), memberName);
+        var diagnostic = Diagnostic.Create(Rule, argSyntax.Expression.GetLocation(), memberName);
         context.ReportDiagnostic(diagnostic);
     }
 }

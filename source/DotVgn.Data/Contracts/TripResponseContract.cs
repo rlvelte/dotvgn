@@ -16,39 +16,39 @@ public record TripResponseContract {
     /// The direction of the trip.
     /// </summary>
     [JsonPropertyName("Linienname")] 
-    public required string Line { get; init; }
+    public string Line { get; init; } = string.Empty;
     
     /// <summary>
     /// The direction of the trip.
     /// </summary>
     [JsonPropertyName("Richtung")] 
-    public required string Direction { get; init; }
+    public string Direction { get; init; } = string.Empty;
     
     /// <summary>
     /// The direction description.
     /// </summary>
     [JsonPropertyName("Richtungstext")] 
-    public required string DirectionDescription { get; init; }
+    public string DirectionDescription { get; init; } = string.Empty;
 
     /// <summary>
     /// All stops that are on this trip.
     /// </summary>
     [JsonPropertyName("Fahrtverlauf")]
-    public required IEnumerable<StopContract> Stops { get; init; }
+    public IEnumerable<StopContract> Stops { get; init; } = [];
     
     /// <summary>
     /// A single stop response entry.
     /// </summary>
     public record StopContract {
-        [JsonPropertyName("Haltestellenname")] public required string Name { get; init; }
-        [JsonPropertyName("VAGKennung")] public required string VagId { get; init; }
-        [JsonPropertyName("VGNKennung")] public required int VgnId { get; init; }
-        [JsonPropertyName("Haltepunkt")] public required string Platform { get; init; }
+        [JsonPropertyName("Haltestellenname")] public string Name { get; init; } = string.Empty;
+        [JsonPropertyName("VAGKennung")] public string VagId { get; init; } = string.Empty;
+        [JsonPropertyName("VGNKennung")] public int VgnId { get; init; }
+        [JsonPropertyName("Haltepunkt")] public string Platform { get; init; } = string.Empty;
         [JsonPropertyName("AnkunftszeitSoll")] public DateTime? ArrivalTimeEstimated { get; init; }
         [JsonPropertyName("AnkunftszeitIst")] public DateTime? ArrivalTimeActual { get; init; }
         [JsonPropertyName("AbfahrtszeitSoll")] public DateTime? DepartureTimeEstimated { get; init; }
         [JsonPropertyName("AbfahrtszeitIst")] public DateTime? DepartureTimeActual { get; init; }
-        [JsonPropertyName("Latitude")] public required double Latitude { get; init; }
-        [JsonPropertyName("Longitude")] public required double Longitude { get; init; }
+        [JsonPropertyName("Latitude")] public double Latitude { get; init; }
+        [JsonPropertyName("Longitude")] public double Longitude { get; init; }
     }
 }

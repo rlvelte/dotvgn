@@ -1,7 +1,7 @@
 ﻿using DotVgn.Client.Base;
-using DotVgn.Mapper;
-using DotVgn.Mapper.Base;
-using DotVgn.Queries;
+using DotVgn.Client.Mapper;
+using DotVgn.Client.Mapper.Base;
+using DotVgn.Client.Queries;
 using DotVgn.Data.Contracts;
 using DotVgn.Data.Models;
 
@@ -52,12 +52,7 @@ public sealed class VgnClient : ClientBase {
         var response = await SendRequestAsync<StationResponseContract>(path, cancellation);
         var mapped = _stationMapper.Map(response.Stations);
         
-        var stations = new List<Station>(mapped.Count);
-        foreach (var station in mapped) {
-            stations.Add(station);
-        }
-
-        return stations;
+        return mapped;
     }
 
     /// <summary>
@@ -76,10 +71,7 @@ public sealed class VgnClient : ClientBase {
         var responses = await SendRequestsAsync<StationQuery, StationResponseContract>(list, cancellation);
         
         var result = new List<(StationQuery, IReadOnlyList<Station>)>(responses.Count);
-        foreach (var kv in responses) {
-            var mapped = _stationMapper.Map(kv.Value.Stations);
-            result.Add((kv.Key, mapped));
-        }
+        result.AddRange(from kv in responses let mapped = _stationMapper.Map(kv.Value.Stations) select (kv.Key, mapped));
         return result;
     }
 
@@ -120,7 +112,7 @@ public sealed class VgnClient : ClientBase {
     /// <param name="query">The criteria used to filter and select trips. Cannot be null.</param>
     /// <param name="cancellation">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>The task result contains a <see cref="Trip"/> matching the query. Null if no trip was found.</returns>
-    public async Task<Trip?> GetTripAsync(TripQuery query, CancellationToken cancellation = default) {
+    public async Task<Trip> GetTripAsync(TripQuery query, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(query);
 
         var response = await SendRequestAsync<TripResponseContract>(query.GetRelativeUriExtension(), cancellation);

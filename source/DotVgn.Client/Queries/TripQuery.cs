@@ -1,8 +1,7 @@
-using System.Globalization;
+using DotVgn.Client.Queries.Base;
 using DotVgn.Data.Enumerations;
-using DotVgn.Queries.Base;
 
-namespace DotVgn.Queries;
+namespace DotVgn.Client.Queries;
 
 /// <summary>
 /// Defines a query to search for trips by type and number.
@@ -38,7 +37,7 @@ public sealed record TripQuery : IQuery {
     /// </summary>
     /// <param name="transportType">The transport type.</param>
     /// <param name="tripNumber">The trip number.</param>
-    /// <param name="date">The date od the trip.</param>
+    /// <param name="date">The date of the trip.</param>
     public TripQuery(TransportType transportType, int tripNumber, DateTime date) : this(transportType, tripNumber) {
         Date = date;
     }
@@ -46,7 +45,7 @@ public sealed record TripQuery : IQuery {
     /// <inheritdoc />
     public string GetRelativeUriExtension() {
         return Date != null ?
-            $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{Date.Value.ToString(CultureInfo.InvariantCulture)}/{TripNumber}" 
+            $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{Date.Value:yyyy-MM-dd}/{TripNumber}" 
             : $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{TripNumber}";
     }
 }

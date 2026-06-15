@@ -7,6 +7,6 @@
     <Project Path="tests/DotVgn.Tests.Client/DotVgn.Tests.Client.csproj" />
   </Folder>
   <Project Path="source/DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
-  <Project Path="source/DotVgn.Client/DotVgn.csproj" />
   <Project Path="source/DotVgn.Data/DotVgn.Data.csproj" />
+  <Project Path="source\DotVgn.Client\DotVgn.Client.csproj" />
 </Solution>
