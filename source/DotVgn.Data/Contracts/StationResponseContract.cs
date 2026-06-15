@@ -16,7 +16,7 @@ public record StationResponseContract {
     /// All stations that are responses for the query.
     /// </summary>
     [JsonPropertyName("Haltestellen")]
-    public required IEnumerable<StationContract> Stations { get; init; }
+    public IEnumerable<StationContract> Stations { get; init; } = [];
 
     /// <summary>
     /// A single station response entry.
@@ -27,6 +27,6 @@ public record StationResponseContract {
         [JsonPropertyName("VGNKennung")] public int VgnId { get; init; }
         [JsonPropertyName("Latitude")] public double Latitude { get; init; }
         [JsonPropertyName("Longitude")] public double Longitude { get; init; }
-        [JsonPropertyName("Produkte")] public string? Transports { get; init; }
+        [JsonPropertyName("Produkte")] public string Transports { get; init; } = string.Empty;
     }
 }

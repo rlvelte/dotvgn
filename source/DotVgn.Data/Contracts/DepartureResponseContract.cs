@@ -16,21 +16,21 @@ public record DepartureResponseContract {
     /// All departures that are responses for the query.
     /// </summary>
     [JsonPropertyName("Abfahrten")]
-    public required IReadOnlyList<DepartureContract> Departures { get; init; }
+    public IReadOnlyList<DepartureContract> Departures { get; init; } = [];
 
     /// <summary>
     /// A single departure response entry.
     /// </summary>
     public record DepartureContract {
-        [JsonPropertyName("Linienname")] public required string Line { get; init; }
-        [JsonPropertyName("Haltepunkt")] public required string StopPoint { get; init; }
-        [JsonPropertyName("Richtung")] public required string Direction { get; init; }
-        [JsonPropertyName("Richtungstext")] public required string DirectionDescription { get; init; }
+        [JsonPropertyName("Linienname")] public string Line { get; init; } = string.Empty;
+        [JsonPropertyName("Haltepunkt")] public string StopPoint { get; init; } = string.Empty;
+        [JsonPropertyName("Richtung")] public string Direction { get; init; } = string.Empty;
+        [JsonPropertyName("Richtungstext")] public string DirectionDescription { get; init; } = string.Empty;
         [JsonPropertyName("AbfahrtszeitSoll")] public DateTimeOffset DepartureTimePlanned { get; init; }
         [JsonPropertyName("AbfahrtszeitIst")] public DateTimeOffset DepartureTimeActual { get; init; }
-        [JsonPropertyName("Produkt")] public required string Transport { get; init; }
+        [JsonPropertyName("Produkt")] public string Transport { get; init; } = string.Empty;
         [JsonPropertyName("Fahrtnummer")] public int TripNumber { get; init; }
         [JsonPropertyName("Betriebstag")] public DateTimeOffset Date { get; init; }
-        [JsonPropertyName("Besetzgrad")] public required string OccupationLevel { get; init; }
+        [JsonPropertyName("Besetzgrad")] public string OccupationLevel { get; init; } = string.Empty;
     }
 }
