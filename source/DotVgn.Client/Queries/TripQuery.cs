@@ -11,12 +11,12 @@ public sealed record TripQuery : IQuery {
     /// The transport type of the requested trip.
     /// </summary>
     private TransportType TransportType { get; }
-    
+
     /// <summary>
     /// The trip number of the requested trip.
     /// </summary>
     private int TripNumber { get; }
-    
+
     /// <summary>
     /// The date of the requested trip.
     /// </summary>
@@ -41,11 +41,11 @@ public sealed record TripQuery : IQuery {
     public TripQuery(TransportType transportType, int tripNumber, DateTime date) : this(transportType, tripNumber) {
         Date = date;
     }
-    
+
     /// <inheritdoc />
     public string GetRelativeUriExtension() {
         return Date != null ?
-            $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{Date.Value:yyyy-MM-dd}/{TripNumber}" 
+            $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{Date.Value:yyyy-MM-dd}/{TripNumber}"
             : $"fahrten/{Uri.EscapeDataString(TransportType.ToString())}/{TripNumber}";
     }
 }

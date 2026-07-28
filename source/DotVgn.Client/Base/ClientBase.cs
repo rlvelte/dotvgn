@@ -19,7 +19,7 @@ public class ClientBase {
             new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
         }
     };
-    
+
     /// <summary>
     /// Initializes a new instance of the ClientBase class.
     /// </summary>
@@ -27,7 +27,7 @@ public class ClientBase {
     protected ClientBase(HttpClient http) {
         _http = http;
     }
-    
+
     /// <summary>
     /// Initializes a new instance of the ClientBase class.
     /// </summary>
@@ -37,7 +37,7 @@ public class ClientBase {
         _http = new HttpClient {
             BaseAddress = options.BaseEndpoint,
         };
-        
+
         _http.DefaultRequestHeaders.UserAgent.ParseAdd("DotBahn/1.0 (+https://github.com/rlvelte/dotbahn)");
     }
 

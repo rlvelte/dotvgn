@@ -1,4 +1,4 @@
-﻿using DotVgn.Client.Mapper.Base;
+using DotVgn.Client.Mapper.Base;
 using DotVgn.Data.Contracts;
 using DotVgn.Data.Enumerations;
 using DotVgn.Data.Models;

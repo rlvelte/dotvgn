@@ -41,7 +41,7 @@ public class TripQueryTransportTypeAnalyzer : DiagnosticAnalyzer {
     /// <param name="context">The context to run analysis on.</param>
     private static void AnalyzeQueryCreation(SyntaxNodeAnalysisContext context) {
         var creation = (ObjectCreationExpressionSyntax)context.Node;
-        
+
         var typeInfo = context.SemanticModel.GetTypeInfo(creation, context.CancellationToken);
         if (typeInfo.Type == null) {
             return;
@@ -51,7 +51,7 @@ public class TripQueryTransportTypeAnalyzer : DiagnosticAnalyzer {
         if (!typeName.Contains("TripQuery")) {
             return;
         }
-        
+
         var arguments = creation.ArgumentList?.Arguments;
         if (arguments == null || arguments.Value.Count == 0) {
             return;

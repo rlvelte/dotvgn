@@ -35,11 +35,11 @@ public static class ServiceCollectionExtensions {
             }).ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             });
-            
+
             services.AddSingleton<IDepartureMapper, DepartureMapper>();
             services.AddSingleton<IStationMapper, StationMapper>();
             services.AddSingleton<ITripMapper, TripMapper>();
-        
+
             return services;
         }
     }

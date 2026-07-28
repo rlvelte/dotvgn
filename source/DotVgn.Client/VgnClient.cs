@@ -1,4 +1,4 @@
-﻿using DotVgn.Client.Base;
+using DotVgn.Client.Base;
 using DotVgn.Client.Mapper;
 using DotVgn.Client.Mapper.Base;
 using DotVgn.Client.Queries;
@@ -22,23 +22,23 @@ public sealed class VgnClient : ClientBase {
     /// <param name="departureMapper">The mapper for departures.</param>
     /// <param name="tripMapper">The mapper for trips.</param>
     /// <param name="stationMapper">The mapper for stations.</param>
-    public VgnClient(HttpClient http, IDepartureMapper departureMapper, ITripMapper tripMapper, IStationMapper stationMapper) 
-        : base(http){
+    public VgnClient(HttpClient http, IDepartureMapper departureMapper, ITripMapper tripMapper, IStationMapper stationMapper)
+        : base(http) {
         _stationMapper = stationMapper;
         _departureMapper = departureMapper;
         _tripMapper = tripMapper;
     }
-    
+
     /// <summary>
     /// Client for accessing VAG/VGN-API.
     /// </summary>
     /// <param name="options">Configuration options for the client.</param>
-    public VgnClient(ClientOptions? options = null) : base(options){
+    public VgnClient(ClientOptions? options = null) : base(options) {
         _stationMapper = new StationMapper();
         _departureMapper = new DepartureMapper();
         _tripMapper = new TripMapper();
     }
-    
+
     /// <summary>
     /// Asynchronously retrieves a list of stations that match the specified <see cref="StationQuery"/> criteria.
     /// </summary>
@@ -51,7 +51,7 @@ public sealed class VgnClient : ClientBase {
 
         var response = await SendRequestAsync<StationResponseContract>(path, cancellation);
         var mapped = _stationMapper.Map(response.Stations);
-        
+
         return mapped;
     }
 
@@ -69,7 +69,7 @@ public sealed class VgnClient : ClientBase {
         }
 
         var responses = await SendRequestsAsync<StationQuery, StationResponseContract>(list, cancellation);
-        
+
         var result = new List<(StationQuery, IReadOnlyList<Station>)>(responses.Count);
         result.AddRange(from kv in responses let mapped = _stationMapper.Map(kv.Value.Stations) select (kv.Key, mapped));
         return result;
@@ -96,12 +96,12 @@ public sealed class VgnClient : ClientBase {
     /// <returns>The task result contains a tuple with the <see cref="DepartureQuery"/>> as a key and read-only list of <see cref="Departure"/> as value. The list will be empty if no departures are found.</returns>
     public async Task<IReadOnlyList<(DepartureQuery Query, IReadOnlyList<Departure> Departures)>> GetDeparturesAsync(IEnumerable<DepartureQuery> queries, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(queries);
-        
+
         var departureQueries = queries.ToList();
         if (departureQueries.Count == 0) {
             throw new ArgumentException("Queries must not be null or empty.", nameof(queries));
         }
-        
+
         var responses = await SendRequestsAsync<DepartureQuery, DepartureResponseContract>(departureQueries, cancellation);
         return responses.Select(kv => (kv.Key, _departureMapper.Map(kv.Value.Departures))).ToList();
     }
@@ -135,7 +135,7 @@ public sealed class VgnClient : ClientBase {
 
         var responses = await SendRequestsAsync<TripQuery, TripResponseContract>(tripQueries, cancellation);
         return responses
-            .Select(kv => (kv.Key, (IReadOnlyList<Trip>) new List<Trip> {
+            .Select(kv => (kv.Key, (IReadOnlyList<Trip>)new List<Trip> {
                 _tripMapper.Map(kv.Value)
             }))
             .ToList();

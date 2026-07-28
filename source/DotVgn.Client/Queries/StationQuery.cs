@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using DotVgn.Client.Queries.Base;
 
 namespace DotVgn.Client.Queries;

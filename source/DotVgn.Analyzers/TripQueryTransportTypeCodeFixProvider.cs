@@ -36,11 +36,11 @@ public class TripQueryTransportTypeCodeFixProvider : CodeFixProvider {
             if (node is ArgumentSyntax arg) {
                 node = arg.Expression;
             }
-            
+
             if (node is not MemberAccessExpressionSyntax and not IdentifierNameSyntax) {
                 continue;
             }
-                
+
             var transportTypes = new[] { "Bus", "Tram", "UBahn" };
             foreach (var type in transportTypes) {
                 context.RegisterCodeFix(
@@ -53,7 +53,7 @@ public class TripQueryTransportTypeCodeFixProvider : CodeFixProvider {
         }
     }
 
-        
+
     private static async Task<Document> ReplaceTransportTypeAsync(Document document, SyntaxNode node, string newTransportType, CancellationToken cancellation) {
         var root = await document.GetSyntaxRootAsync(cancellation).ConfigureAwait(false);
         if (root == null)

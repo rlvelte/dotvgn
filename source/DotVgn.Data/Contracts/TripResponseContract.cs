@@ -11,23 +11,23 @@ public record TripResponseContract {
     /// </summary>
     [JsonPropertyName("Metadata")]
     public required MetadataContract Metadata { get; init; }
-    
+
     /// <summary>
     /// The direction of the trip.
     /// </summary>
-    [JsonPropertyName("Linienname")] 
+    [JsonPropertyName("Linienname")]
     public string Line { get; init; } = string.Empty;
-    
+
     /// <summary>
     /// The direction of the trip.
     /// </summary>
-    [JsonPropertyName("Richtung")] 
+    [JsonPropertyName("Richtung")]
     public string Direction { get; init; } = string.Empty;
-    
+
     /// <summary>
     /// The direction description.
     /// </summary>
-    [JsonPropertyName("Richtungstext")] 
+    [JsonPropertyName("Richtungstext")]
     public string DirectionDescription { get; init; } = string.Empty;
 
     /// <summary>
@@ -35,7 +35,7 @@ public record TripResponseContract {
     /// </summary>
     [JsonPropertyName("Fahrtverlauf")]
     public IEnumerable<StopContract> Stops { get; init; } = [];
-    
+
     /// <summary>
     /// A single stop response entry.
     /// </summary>

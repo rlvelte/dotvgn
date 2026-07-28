@@ -1,4 +1,4 @@
-﻿using DotVgn.Data.Enumerations;
+using DotVgn.Data.Enumerations;
 
 namespace DotVgn.Data.Models;
 

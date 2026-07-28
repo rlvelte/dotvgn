@@ -193,8 +193,11 @@ public sealed class StationMapperTests {
         var mapper = new StationMapper();
 #pragma warning disable CS8625 // Transports is nullable string? in the contract
         var contract = new StationResponseContract.StationContract {
-            Name = "Test", VagId = "X", VgnId = 1,
-            Latitude = 49.0, Longitude = 11.0,
+            Name = "Test",
+            VagId = "X",
+            VgnId = 1,
+            Latitude = 49.0,
+            Longitude = 11.0,
             Transports = null
         };
 #pragma warning restore CS8625

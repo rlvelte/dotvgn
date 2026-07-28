@@ -1,4 +1,4 @@
-﻿using DotVgn.Client.Mapper.Base;
+using DotVgn.Client.Mapper.Base;
 using DotVgn.Data.Contracts;
 using DotVgn.Data.Enumerations;
 using DotVgn.Data.Models;
@@ -20,7 +20,7 @@ internal sealed class StationMapper : IStationMapper {
             .Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(t => Enum.TryParse<TransportType>(t.Trim(), true, out var parsed) ? parsed : TransportType.Unknown)
             .ToList();
-        
+
         return new Station(
             source.Name,
             source.VgnId,
