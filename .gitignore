@@ -32,6 +32,9 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
+[Bb]in\\[Dd]ebug/
+[Bb]in\\[Rr]elease/
+[Bb]uild/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
@@ -51,7 +54,6 @@ Generated\ Files/
 # NUnit
 *.VisualState.xml
 TestResult.xml
-TestResult/
 nunit-*.xml
 
 # Build Results of an ATL Project
@@ -59,12 +61,8 @@ nunit-*.xml
 [Rr]eleasePS/
 dlldata.c
 
-# Environment
+# Environment (decrypted at runtime, encrypted .enc files are committed)
 *.env
-sample.json
-sample2.json
-sample3.json
-spec.yaml
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
@@ -73,6 +71,8 @@ BenchmarkDotNet.Artifacts/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+docs/_site/
+docs/api/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
@@ -126,6 +126,19 @@ ipch/
 *.VC.db
 *.VC.VC.opendb
 
+# C/C++
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+**/Makefile
+!/Makefile
+_deps/
+CTestTestfile.cmake
+install_manifest.txt
+compile_commands.json
+
 # Visual Studio profiler
 *.psess
 *.vsp
@@ -134,6 +147,10 @@ ipch/
 
 # Visual Studio Trace Files
 *.e2e
+
+# Svelte
+.svelte-kit/
+package-lock.json
 
 # TFS 2012 Local Workspace
 $tf/
@@ -179,7 +196,19 @@ AutoTest.Net/
 
 # Claude
 CLAUDE.md
+AGENTS.md
 .claude/
+
+# Docker
+docker-compose.override.yml
+
+# Notes and todos
+TODO.md
+[Tt]odo.md
+[Tt]odo/
+NOTES.md
+[Nn]otes.md
+[Nn]otes/
 
 # Installshield output folder
 [Ee]xpress/
@@ -281,6 +310,7 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
+edge.db
 *.mdf
 *.ldf
 *.ndf
@@ -293,6 +323,9 @@ ServiceFabricBackup/
 *- [Bb]ackup.rdl
 *- [Bb]ackup ([0-9]).rdl
 *- [Bb]ackup ([0-9][0-9]).rdl
+
+# PDF/A
+design_notes.pdf
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -345,6 +378,12 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+*.py[cod]
+*.egg-info/
+*.egg
+*.so
+**/.eggs/
+**/.venv/
 
 # Cake - Uncomment if you are using it
 # tools/**
@@ -396,7 +435,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
-.vscode/*
+**/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -437,3 +476,4 @@ FodyWeavers.xsd
 
 global.json
 .idea
+.directory

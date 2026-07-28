@@ -1,0 +1,26 @@
+[*]
+csharp_prefer_braces = false
+csharp_style_expression_bodied_methods = false
+csharp_style_expression_bodied_properties = false
+csharp_style_expression_bodied_indexers = false
+csharp_style_expression_bodied_accessors = false
+csharp_style_expression_bodied_lambdas = false
+csharp_style_expression_bodied_constructors = false
+csharp_style_throw_expression = false
+csharp_style_pattern_matching_over_is_with_cast_check = false
+csharp_style_pattern_matching_over_as_with_null_check = false
+csharp_style_inlined_variable_declaration = false
+csharp_style_var_for_built_in_types = true
+csharp_style_var_when_type_is_apparent = true
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_event = false
+dotnet_style_require_accessibility_modifiers = false
+dotnet_style_readonly_field = false
+
+# Diagnostic suppressions (sample code)
+dotnet_diagnostic.CA2007.severity = none       # ConfigureAwait in samples
+dotnet_diagnostic.CA1002.severity = none       # List<T> in DTOs
+dotnet_diagnostic.CA1063.severity = none       # Dispose
+dotnet_diagnostic.CA1716.severity = none       # "Shared" in namespace

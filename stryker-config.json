@@ -1,0 +1,18 @@
+{
+  "stryker-config": {
+    "reporters": ["html", "json", "progress"],
+    "ignore-mutations": ["string"],
+    "ignore-methods": [
+      "*LogInformation",
+      "*LogError",
+      "*LogWarning",
+      "*LogDebug",
+      "*LogTrace",
+      "*LogCritical"
+    ],
+    "mutate": [
+      "!**/*Options.cs",
+      "!**/ServiceCollectionExtensions.cs"
+    ]
+  }
+}
