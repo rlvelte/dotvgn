@@ -1,59 +1,102 @@
-name: Release & Publish NuGet
+name: Release
 
 on:
   push:
     tags:
-      - "v*.*.*"
+      - 'v*.*.*'
 
 permissions:
   contents: write
   packages: write
 
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-  DOTNET_NOLOGO: true
-
 jobs:
   release:
+    name: Build, Test, Pack & Publish
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: '10.0.x'
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.slnx') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+      - name: Configure NuGet (GitHub Packages)
+        run: |
+          dotnet nuget add source \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --name github \
+            --username ${{ github.repository_owner }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text
 
       - name: Restore
-        run: dotnet restore DotVgn.slnx
+        run: dotnet restore
 
-      - name: Build & pack (Release)
-        run: dotnet build DotVgn.slnx --configuration Release
+      - name: Format check
+        run: dotnet format --verify-no-changes --verbosity diagnostic
 
-      - name: Run tests
-        run: dotnet test DotVgn.slnx --no-build --configuration Release
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
 
-      - name: Publish to GitHub Packages
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+
+      - name: Security audit
+        run: dotnet list package --vulnerable --include-transitive
+
+      - name: Pack NuGet
         run: |
-          dotnet nuget push nupkgs/*.nupkg \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }}
+          dotnet pack --no-restore --configuration Release \
+            -p:IncludeSymbols=true \
+            -p:IncludeSource=true \
+            -p:SymbolPackageFormat=snupkg \
+            --output ./nupkgs
+
+      - name: Push to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for pkg in ./nupkgs/*.nupkg; do
+            if [[ "$pkg" != *.snupkg ]]; then
+              dotnet nuget push "$pkg" \
+                --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+                --api-key "${{ secrets.GITHUB_TOKEN }}" \
+                --skip-duplicate
+            fi
+          done
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            LOG=$(git log --oneline --no-decorate)
+          else
+            LOG=$(git log --oneline --no-decorate "$PREV_TAG..HEAD")
+          fi
+          {
+            echo "### Changes in ${{ github.ref_name }}"
+            echo ""
+            echo '```'
+            echo "$LOG"
+            echo '```'
+          } > ./CHANGELOG_SECTION.md
+          cat ./CHANGELOG_SECTION.md
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: nupkgs/*.nupkg
+          body_path: ./CHANGELOG_SECTION.md
+          files: |
+            ./nupkgs/*.nupkg
+            ./nupkgs/*.snupkg
+          draft: false
+          prerelease: false
