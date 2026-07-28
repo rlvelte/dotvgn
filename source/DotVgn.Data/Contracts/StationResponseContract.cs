@@ -22,11 +22,29 @@ public record StationResponseContract {
     /// A single station response entry.
     /// </summary>
     public record StationContract {
+        /// <summary>
+        /// Name of the station.
+        /// </summary>
         [JsonPropertyName("Haltestellenname")] public string Name { get; init; } = string.Empty;
+        /// <summary>
+        /// VAG station identifier.
+        /// </summary>
         [JsonPropertyName("VAGKennung")] public string VagId { get; init; } = string.Empty;
+        /// <summary>
+        /// VGN station identifier.
+        /// </summary>
         [JsonPropertyName("VGNKennung")] public int VgnId { get; init; }
+        /// <summary>
+        /// Latitude coordinate of the station.
+        /// </summary>
         [JsonPropertyName("Latitude")] public double Latitude { get; init; }
+        /// <summary>
+        /// Longitude coordinate of the station.
+        /// </summary>
         [JsonPropertyName("Longitude")] public double Longitude { get; init; }
+        /// <summary>
+        /// Transport types available at this station.
+        /// </summary>
         [JsonPropertyName("Produkte")] public string Transports { get; init; } = string.Empty;
     }
 }
