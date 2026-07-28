@@ -1,0 +1,10 @@
+apiRules:
+- exclude:
+    uidRegex: \.Contracts$
+    type: Namespace
+- exclude:
+    uidRegex: ^Contracts$
+    type: Namespace
+- exclude:
+    uidRegex: \.Json$
+    type: Namespace

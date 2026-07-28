@@ -1,0 +1,65 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "source/DotVgn.Data/bin/Release/net10.0/DotVgn.Data.dll",
+            "source/DotVgn.Client/bin/Release/net10.0/DotVgn.Client.dll"
+          ],
+          "src": "..",
+          "exclude": [
+            "**/System.*.dll",
+            "**/Microsoft.*.dll"
+          ]
+        }
+      ],
+      "dest": "api",
+      "filter": "filterconfig.yml"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "api/**",
+          "_site/**"
+        ]
+      },
+      {
+        "files": "api/*.yml",
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "globalMetadata": {
+      "_appTitle": "DotVGN Documentation",
+      "_appFooter": "MIT License — Robin L. Velte & Contributors",
+      "_enableSearch": true,
+      "_enableNewTab": true,
+      "_disableNavbar": false,
+      "_disableBreadcrumb": false,
+      "_gitLinkTemplate": "https://github.com/rlvelte/dotvgn/blob/main/{path}",
+      "_appFaviconPath": "images/logo-16x16.png"
+    },
+    "dest": "_site",
+    "template": [
+      "default",
+      "modern"
+    ]
+  }
+}
