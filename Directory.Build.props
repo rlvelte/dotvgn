@@ -1,0 +1,63 @@
+<Project>
+  <!-- General -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Nupkg -->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
+  </PropertyGroup>
+
+  <!-- SNupkg -->
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- Package information -->
+  <PropertyGroup>
+    <Authors>Robin L. Velte</Authors>
+    <PackageProjectUrl>https://github.com/rlvelte/dotvgn</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rlvelte/dotvgn</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>vgn;vag;traffic;public-transport;client;api;rest;http;dotnet;net10;departures;stations;nuremberg</PackageTags>
+    <Copyright>Copyright (c) Robin L. Velte 2026</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <None Include="$(MSBuildThisFileDirectory)Icon.png" Pack="True" PackagePath="icon.png" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="True" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="True" PackagePath="" />
+  </ItemGroup>
+
+
+  <!-- MinVer versioning -->
+  <PropertyGroup>
+    <MinVerDefaultPreReleaseIdentifiers>preview</MinVerDefaultPreReleaseIdentifiers>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MinVer" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- GitHub -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
