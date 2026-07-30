@@ -38,7 +38,7 @@ public class ClientBase {
             BaseAddress = options.BaseEndpoint,
         };
 
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("DotBahn/1.0 (+https://github.com/rlvelte/dotbahn)");
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("DotVgn/1.0 (+https://github.com/rlvelte/dotvgn)");
     }
 
     /// <summary>
