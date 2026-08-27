@@ -17,17 +17,15 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      xunit:
-        patterns:
-          - "xunit*"
-          - "coverlet*"
-          - "Microsoft.NET.Test.Sdk"
       mstest:
         patterns:
           - "MSTest.*"
     ignore:
       - dependency-name: "Spectre.Console"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "xunit*"
+      - dependency-name: "coverlet*"
+      - dependency-name: "Microsoft.NET.Test.Sdk"
 
   - package-ecosystem: "github-actions"
     directory: "/"
