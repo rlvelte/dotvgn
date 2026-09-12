@@ -1,0 +1,74 @@
+name: OBS Publish
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+concurrency:
+  group: obs-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Build & Publish to OBS
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install rpm & osc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm osc
+
+      - name: Build samples & stage OBS sources
+        env:
+          SOURCES_OUT: obs-stage
+        run: ./samples/build-rpm.sh
+
+      - name: Configure osc
+        env:
+          OBS_USER: ${{ secrets.OBS_USER }}
+          OBS_PASS: ${{ secrets.OBS_PASS }}
+        run: |
+          mkdir -p ~/.config/osc
+          cat > ~/.config/osc/oscrc <<EOF
+          [general]
+          apiurl = https://api.opensuse.org
+          [https://api.opensuse.org]
+          user = ${OBS_USER}
+          pass = ${OBS_PASS}
+          EOF
+          chmod 600 ~/.config/osc/oscrc
+
+      - name: Upload to OBS
+        env:
+          OBS_PROJECT: ${{ vars.OBS_PROJECT }}
+        run: |
+          API="https://api.opensuse.org"
+          PROJECT="${OBS_PROJECT:-home:rvelte}"
+
+          for pkg_dir in obs-stage/*/; do
+            pkg="$(basename "$pkg_dir")"
+            echo "==> Publishing $pkg to $PROJECT/$pkg"
+
+            # Create the package if it does not exist yet
+            osc meta pkg "$PROJECT" "$pkg" --create || true
+
+            osc -A "$API" commit "$pkg_dir" "$PROJECT" "$pkg" \
+              --message "Release ${GITHUB_REF_NAME}"
+          done
