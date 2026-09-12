@@ -6,7 +6,7 @@
 Lightweight .NET client for the VGN/VAG public transport API.
 
 > [!IMPORTANT]
-> This project originated from a personal application. Development follows my own needs rather than a fixed roadmap. Contributions and forks are welcome.
+> If you are just here to use the departure monitor as a standalone tool on your system, there is also a packaged RPM on the [Open Build Service](https://build.opensuse.org/package/show/home:rvelte/vgn) for that.
 
 
 ## Table of Contents
@@ -23,7 +23,7 @@ dotnet add package dotvgn
 
 ## Usage
 ### Dependency Injection
-The package integrate seamlessly with `ServiceCollection`.
+The package integrates seamlessly with `ServiceCollection`.
 
 ```csharp
 // Provide another base endpoint
@@ -41,7 +41,7 @@ var client = new VgnClient();
 
 ## Samples
 ### Departure Monitor
-A terminal based departure board. Shows real-time departures grouped by transport type (U-Bahn, S-Bahn, Tram, Bus, R-Bahn) with delay info and platform numbers. Supports fuzzy station search with interactive selection.
+A terminal-based departure board. Shows real-time departures grouped by transport type (U-Bahn, S-Bahn, Tram, Bus, R-Bahn) with delay info and platform numbers. Supports fuzzy station search with interactive selection.
 
 ```bash
 dotnet run --project samples/DotVgn.Samples.Monitor -- <StationName>

@@ -39,7 +39,7 @@ for spec in "${specs[@]}"; do
 
   if [ -n "${SOURCES_OUT:-}" ]; then
     mkdir -p "$SOURCES_OUT/$name"
-    cp "$spec" "$SOURCES_OUT/$name/"
+    sed "s/^Version:.*/Version:        $VERSION/" "$spec" > "$SOURCES_OUT/$name/$(basename "$spec")"
     cp "$WORK/SOURCES/$name-$VERSION.tar.gz" "$SOURCES_OUT/$name/"
   fi
 
