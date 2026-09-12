@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>vgn</AssemblyName>
@@ -16,5 +15,4 @@
     <ProjectReference Include="..\..\source\DotVgn.Client\DotVgn.Client.csproj" />
     <ProjectReference Include="..\..\source\DotVgn.Common\DotVgn.Common.csproj" />
   </ItemGroup>
-
 </Project>

@@ -5,8 +5,8 @@ using DotVgn.Common.Models;
 using Spectre.Console;
 
 if (args.Length == 0) {
-    AnsiConsole.MarkupLine($"[{Gruvbox.Red}]Usage:[/] dotnet run -- \"<station name>\"");
-    AnsiConsole.MarkupLine($"[{Gruvbox.Gray}]Example:[/] dotnet run -- \"Hauptbahnhof\"");
+    AnsiConsole.MarkupLine($"[{Gruvbox.Red}]Usage:[/] vgn -- \"<station name>\"");
+    AnsiConsole.MarkupLine($"[{Gruvbox.Gray}]Example:[/] vgn -- \"Hauptbahnhof\"");
     return 1;
 }
 
