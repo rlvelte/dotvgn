@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   push:
-    branches: [develop, main]
+    branches: [develop, master]
     paths-ignore:
       - '**.md'
       - '.gitignore'
