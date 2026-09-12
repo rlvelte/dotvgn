@@ -1,12 +1,26 @@
 <Solution>
-  <Folder Name="/DotVgn.Samples/">
+  <Folder Name="/Configuration/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Makefile" />
+  </Folder>
+  <Folder Name="/Documentation/">
+    <File Path="docs/docfx.json" />
+    <File Path="docs/toc.yml" />
+    <File Path="docs/filterconfig.yml" />
+    <File Path="docs/index.md" />
+  </Folder>
+  <Folder Name="/Samples/">
+    <File Path="pack\rpm\vgn.spec" />
     <Project Path="samples\DotVgn.Samples.Monitor\DotVgn.Samples.Monitor.csproj" />
   </Folder>
-  <Folder Name="/DotVgn.Tests/">
+  <Folder Name="/Packages/">
+    <Project Path="source/DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
+    <Project Path="source/DotVgn.Common/DotVgn.Common.csproj" />
+    <Project Path="source\DotVgn.Client\DotVgn.Client.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
     <Project Path="tests/DotVgn.Tests.Analyzers/DotVgn.Tests.Analyzers.csproj" />
     <Project Path="tests/DotVgn.Tests.Client/DotVgn.Tests.Client.csproj" />
   </Folder>
-  <Project Path="source/DotVgn.Analyzers/DotVgn.Analyzers.csproj" />
-  <Project Path="source/DotVgn.Data/DotVgn.Data.csproj" />
-  <Project Path="source\DotVgn.Client\DotVgn.Client.csproj" />
 </Solution>

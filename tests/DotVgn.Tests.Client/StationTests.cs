@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.Text;
-using System.Text.Encodings.Web;
 using DotVgn.Client.Queries;
 
 namespace DotVgn.Tests.Client;

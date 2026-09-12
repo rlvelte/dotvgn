@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using DotVgn.Analyzers;
-using Xunit;
 using VerifyCS = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<DotVgn.Analyzers.TripQueryTransportTypeAnalyzer, DotVgn.Analyzers.TripQueryTransportTypeCodeFixProvider, Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
 namespace DotVgn.Tests.Analyzers;

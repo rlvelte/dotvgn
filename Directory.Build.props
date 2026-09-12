@@ -9,6 +9,9 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible Condition="'$(IsPackable)' == 'true'">true</IsAotCompatible>
+    <IsTrimmable Condition="'$(IsPackable)' == 'true'">true</IsTrimmable>
+    <EnableTrimAnalyzer Condition="'$(IsPackable)' == 'true'">true</EnableTrimAnalyzer>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
@@ -16,6 +19,7 @@
   <PropertyGroup>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageOutputPath>$(MSBuildThisFileDirectory)nupkgs</PackageOutputPath>
+    <IsAotCompatible Condition="'$(IsPackable)' == 'true' AND '$(TargetFramework)' != 'netstandard2.0'">true</IsAotCompatible>
   </PropertyGroup>
 
   <!-- SNupkg -->
@@ -42,7 +46,6 @@
     <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="True" PackagePath="" />
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="True" PackagePath="" />
   </ItemGroup>
-
 
   <!-- MinVer versioning -->
   <PropertyGroup>

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DotVgn.Data.Contracts;
+namespace DotVgn.Common.Contracts;
 
 /// <summary>
 /// The trip response that the VAG interface sends back to the client.

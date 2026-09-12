@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <AssemblyName>vgn</AssemblyName>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\source\DotVgn.Client\DotVgn.Client.csproj" />
-    <ProjectReference Include="..\..\source\DotVgn.Data\DotVgn.Data.csproj" />
+    <ProjectReference Include="..\..\source\DotVgn.Common\DotVgn.Common.csproj" />
   </ItemGroup>
-
 </Project>

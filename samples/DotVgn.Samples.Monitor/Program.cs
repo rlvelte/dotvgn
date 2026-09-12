@@ -1,12 +1,12 @@
 using DotVgn.Client;
 using DotVgn.Client.Queries;
-using DotVgn.Data.Enumerations;
-using DotVgn.Data.Models;
+using DotVgn.Common.Enumerations;
+using DotVgn.Common.Models;
 using Spectre.Console;
 
 if (args.Length == 0) {
-    AnsiConsole.MarkupLine($"[{Gruvbox.Red}]Usage:[/] dotnet run -- \"<station name>\"");
-    AnsiConsole.MarkupLine($"[{Gruvbox.Gray}]Example:[/] dotnet run -- \"Hauptbahnhof\"");
+    AnsiConsole.MarkupLine($"[{Gruvbox.Red}]Usage:[/] vgn -- \"<station name>\"");
+    AnsiConsole.MarkupLine($"[{Gruvbox.Gray}]Example:[/] vgn -- \"Hauptbahnhof\"");
     return 1;
 }
 

@@ -1,5 +1,5 @@
 using DotVgn.Client.Mapper;
-using DotVgn.Data.Contracts;
+using DotVgn.Common.Contracts;
 
 namespace DotVgn.Tests.Client;
 

@@ -1,6 +1,6 @@
 using DotVgn.Client.Mapper;
-using DotVgn.Data.Contracts;
-using DotVgn.Data.Enumerations;
+using DotVgn.Common.Contracts;
+using DotVgn.Common.Enumerations;
 
 namespace DotVgn.Tests.Client;
 

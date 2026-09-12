@@ -1,11 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>DotVgn</PackageId>
     <Description>.NET client for VAG/VGN API.</Description>
-
-    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,18 +12,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotVgn.Analyzers\DotVgn.Analyzers.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-    <ProjectReference Include="..\DotVgn.Data\DotVgn.Data.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\DotVgn.Common\DotVgn.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="DotVgn.Tests.Client" />
   </ItemGroup>
-
-  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
-    </ItemGroup>
-  </Target>
 
   <ItemGroup>
     <None Include="..\DotVgn.Analyzers\bin\$(Configuration)\netstandard2.0\DotVgn.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

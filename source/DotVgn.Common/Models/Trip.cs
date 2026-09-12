@@ -1,4 +1,4 @@
-namespace DotVgn.Data.Models;
+namespace DotVgn.Common.Models;
 
 /// <summary>
 /// Represents a trip between two stations.

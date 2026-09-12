@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions {
             services.AddHttpClient<VgnClient>((sp, http) => {
                 var opt = sp.GetRequiredService<IOptionsSnapshot<ClientOptions>>().Get(OptionsName);
                 http.BaseAddress = opt.BaseEndpoint;
-                http.DefaultRequestHeaders.UserAgent.ParseAdd("DotVgn/1.0 (+https://github.com/rlvelte/dotvgn)");
+                http.DefaultRequestHeaders.UserAgent.ParseAdd("DotVgn/2.0 (+https://github.com/rlvelte/dotvgn)");
             }).ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             });
