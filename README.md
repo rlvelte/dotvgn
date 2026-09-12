@@ -18,7 +18,7 @@ Lightweight .NET client for the VGN/VAG public transport API.
 ## Install
 The easiest way to get started is to install the package from [NuGet](https://www.nuget.org/) or [GitHub Packages](https://docs.github.com/de/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry):
 ```
-dotnet add package dotvgn
+dotnet add package DotVgn
 ```
 
 ## Usage
