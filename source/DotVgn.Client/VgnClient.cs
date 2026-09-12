@@ -1,8 +1,8 @@
 using DotVgn.Client.Base;
-using DotVgn.Client.Serialization;
 using DotVgn.Client.Mapper;
 using DotVgn.Client.Mapper.Base;
 using DotVgn.Client.Queries;
+using DotVgn.Client.Serialization;
 using DotVgn.Common.Models;
 
 namespace DotVgn.Client;
