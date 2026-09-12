@@ -37,6 +37,12 @@ for spec in "${specs[@]}"; do
   cp "$ROOT/LICENSE" "$WORK/$name-$VERSION/"
   tar -czf "$WORK/SOURCES/$name-$VERSION.tar.gz" -C "$WORK" "$name-$VERSION"
 
+  if [ -n "${SOURCES_OUT:-}" ]; then
+    mkdir -p "$SOURCES_OUT/$name"
+    cp "$spec" "$SOURCES_OUT/$name/"
+    cp "$WORK/SOURCES/$name-$VERSION.tar.gz" "$SOURCES_OUT/$name/"
+  fi
+
   echo "Building RPM for $name"
   rpmbuild -bb \
     --define "_sourcedir $WORK/SOURCES" \
