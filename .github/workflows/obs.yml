@@ -69,6 +69,8 @@ jobs:
             # Create the package if it does not exist yet
             osc meta pkg "$PROJECT" "$pkg" --create || true
 
-            osc -A "$API" init "$PROJECT" "$pkg" "$pkg_dir"
-            ( cd "$pkg_dir" && osc add * && osc commit --message "Release ${GITHUB_REF_NAME}" )
+            ( cd "$pkg_dir" \
+              && osc -A "$API" init "$PROJECT" "$pkg" \
+              && osc add * \
+              && osc commit --message "Release ${GITHUB_REF_NAME}" )
           done
