@@ -2,8 +2,11 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using DotVgn.Client.Queries.Base;
-using DotVgn.Data.Exceptions;
+using DotVgn.Client.Serialization;
+using DotVgn.Common.Enumerations;
+using DotVgn.Common.Exceptions;
 
 namespace DotVgn.Client.Base;
 
@@ -12,11 +15,9 @@ namespace DotVgn.Client.Base;
 /// </summary>
 public class ClientBase {
     private readonly HttpClient _http;
-    private readonly JsonSerializerOptions _json = new() {
-        PropertyNameCaseInsensitive = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    private readonly JsonSerializerOptions _json = new(VgnJsonContext.Default.Options) {
         Converters = {
-            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            new JsonStringEnumConverter<TransportType>(JsonNamingPolicy.CamelCase)
         }
     };
 
@@ -46,6 +47,7 @@ public class ClientBase {
     /// </summary>
     /// <typeparam name="TItem">The item type to process.</typeparam>
     /// <typeparam name="TValue">The result type produced by the worker.</typeparam>
+    /// <param name="typeInfo">The source-generated JSON type information for <typeparamref name="TValue"/>.</param>
     /// <param name="queries">The items to process.</param>
     /// <param name="cancellation">A cancellation token that can be used to cancel the request.</param>
     /// <returns>The task result contains the deserialized read-only list of (Key, Value) pairs.</returns>
@@ -53,14 +55,14 @@ public class ClientBase {
     /// Thrown if the HTTP response indicates a failure status code, or if the response body is empty or cannot be
     /// deserialized to the specified type.
     /// </exception>
-    protected async Task<IReadOnlyList<(TItem Key, TValue Value)>> SendRequestsAsync<TItem, TValue>(IEnumerable<TItem> queries, CancellationToken cancellation) where TItem : IQuery {
+    protected async Task<IReadOnlyList<(TItem Key, TValue Value)>> SendRequestsAsync<TItem, TValue>(JsonTypeInfo<TValue> typeInfo, IEnumerable<TItem> queries, CancellationToken cancellation) where TItem : IQuery {
         var result = new ConcurrentDictionary<TItem, TValue>();
         var queryList = queries.ToList();
 
         await Parallel.ForEachAsync(queryList, new ParallelOptions {
             CancellationToken = cancellation
         }, async (item, ct) => {
-            var value = await SendRequestAsync<TValue>(item.GetRelativeUriExtension(), ct);
+            var value = await SendRequestAsync(typeInfo, item.GetRelativeUriExtension(), ct);
             result[item] = value;
         });
 
@@ -71,14 +73,15 @@ public class ClientBase {
     /// Sends an asynchronous request to the specified path and deserializes the response body to the specified type.
     /// </summary>
     /// <typeparam name="T">The type to which the response body will be deserialized.</typeparam>
+    /// <param name="typeInfo">The source-generated JSON type information for <typeparamref name="T"/>.</param>
     /// <param name="path">The relative path to append to the base address for the HTTP request.</param>
-    /// <param name="cancellation">A cancellation token that can be used to cancel the request.</param>
+    /// <param name="cancellation">A cancellation token that can be used to cancel the asynchronous operation.</param>
     /// <returns>The task result contains the deserialized response body of type <typeparamref name="T"/>.</returns>
     /// <exception cref="DotVgnApiException">
     /// Thrown if the HTTP response indicates a failure status code, or if the response body is empty or cannot be
     /// deserialized to the specified type.
     /// </exception>
-    protected async Task<T> SendRequestAsync<T>(string path, CancellationToken cancellation) {
+    protected async Task<T> SendRequestAsync<T>(JsonTypeInfo<T> typeInfo, string path, CancellationToken cancellation) {
         ArgumentNullException.ThrowIfNull(_http.BaseAddress);
 
         var completeUri = new Uri(_http.BaseAddress, path);
@@ -91,7 +94,7 @@ public class ClientBase {
             throw new DotVgnApiException(response.StatusCode, completeUri);
         }
 
-        var result = JsonSerializer.Deserialize<T>(body, _json);
+        var result = JsonSerializer.Deserialize(body, typeInfo);
         return result ?? throw new DotVgnApiException(HttpStatusCode.OK, completeUri);
     }
 }

@@ -1,7 +1,7 @@
 using DotVgn.Client.Mapper.Base;
-using DotVgn.Data.Contracts;
-using DotVgn.Data.Enumerations;
-using DotVgn.Data.Models;
+using DotVgn.Common.Contracts;
+using DotVgn.Common.Enumerations;
+using DotVgn.Common.Models;
 
 namespace DotVgn.Client.Mapper;
 

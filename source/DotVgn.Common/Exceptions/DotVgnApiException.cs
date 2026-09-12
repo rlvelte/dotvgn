@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace DotVgn.Data.Exceptions;
+namespace DotVgn.Common.Exceptions;
 
 /// <summary>
 /// Represents a failed call to the upstream VGN API with diagnostic details.

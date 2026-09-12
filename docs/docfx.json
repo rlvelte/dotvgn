@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "source/DotVgn.Data/bin/Release/net10.0/DotVgn.Data.dll",
+            "source/DotVgn.Common/bin/Release/net10.0/DotVgn.Common.dll",
             "source/DotVgn.Client/bin/Release/net10.0/DotVgn.Client.dll"
           ],
           "src": "..",

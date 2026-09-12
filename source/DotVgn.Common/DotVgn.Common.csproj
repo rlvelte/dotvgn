@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>DotVgn.Common</PackageId>
+    <Description>Data models and types shared across the DotVgn packages.</Description>
+  </PropertyGroup>
+
+</Project>

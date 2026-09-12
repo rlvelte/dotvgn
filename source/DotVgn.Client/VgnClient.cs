@@ -1,9 +1,9 @@
 using DotVgn.Client.Base;
+using DotVgn.Client.Serialization;
 using DotVgn.Client.Mapper;
 using DotVgn.Client.Mapper.Base;
 using DotVgn.Client.Queries;
-using DotVgn.Data.Contracts;
-using DotVgn.Data.Models;
+using DotVgn.Common.Models;
 
 namespace DotVgn.Client;
 
@@ -49,7 +49,7 @@ public sealed class VgnClient : ClientBase {
         ArgumentNullException.ThrowIfNull(query);
         var path = query.GetRelativeUriExtension();
 
-        var response = await SendRequestAsync<StationResponseContract>(path, cancellation);
+        var response = await SendRequestAsync(VgnJsonContext.Default.StationResponseContract, path, cancellation);
         var mapped = _stationMapper.Map(response.Stations);
 
         return mapped;
@@ -68,7 +68,7 @@ public sealed class VgnClient : ClientBase {
             throw new ArgumentException("Queries must not be null or empty.", nameof(queries));
         }
 
-        var responses = await SendRequestsAsync<StationQuery, StationResponseContract>(list, cancellation);
+        var responses = await SendRequestsAsync(VgnJsonContext.Default.StationResponseContract, list, cancellation);
 
         var result = new List<(StationQuery, IReadOnlyList<Station>)>(responses.Count);
         result.AddRange(from kv in responses let mapped = _stationMapper.Map(kv.Value.Stations) select (kv.Key, mapped));
@@ -84,7 +84,7 @@ public sealed class VgnClient : ClientBase {
     public async Task<IReadOnlyList<Departure>> GetDeparturesAsync(DepartureQuery query, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(query);
 
-        var response = await SendRequestAsync<DepartureResponseContract>(query.GetRelativeUriExtension(), cancellation);
+        var response = await SendRequestAsync(VgnJsonContext.Default.DepartureResponseContract, query.GetRelativeUriExtension(), cancellation);
         return _departureMapper.Map(response.Departures);
     }
 
@@ -102,8 +102,8 @@ public sealed class VgnClient : ClientBase {
             throw new ArgumentException("Queries must not be null or empty.", nameof(queries));
         }
 
-        var responses = await SendRequestsAsync<DepartureQuery, DepartureResponseContract>(departureQueries, cancellation);
-        return responses.Select(kv => (kv.Key, _departureMapper.Map(kv.Value.Departures))).ToList();
+        var responses = await SendRequestsAsync(VgnJsonContext.Default.DepartureResponseContract, departureQueries, cancellation);
+        return [.. responses.Select(kv => (kv.Key, _departureMapper.Map(kv.Value.Departures)))];
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public sealed class VgnClient : ClientBase {
     public async Task<Trip> GetTripAsync(TripQuery query, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(query);
 
-        var response = await SendRequestAsync<TripResponseContract>(query.GetRelativeUriExtension(), cancellation);
+        var response = await SendRequestAsync(VgnJsonContext.Default.TripResponseContract, query.GetRelativeUriExtension(), cancellation);
         return _tripMapper.Map(response);
     }
 
@@ -133,11 +133,9 @@ public sealed class VgnClient : ClientBase {
             throw new ArgumentException("Queries must not be null or empty.", nameof(queries));
         }
 
-        var responses = await SendRequestsAsync<TripQuery, TripResponseContract>(tripQueries, cancellation);
-        return responses
-            .Select(kv => (kv.Key, (IReadOnlyList<Trip>)new List<Trip> {
-                _tripMapper.Map(kv.Value)
-            }))
-            .ToList();
+        var responses = await SendRequestsAsync(VgnJsonContext.Default.TripResponseContract, tripQueries, cancellation);
+        return [.. responses.Select(kv => (kv.Key, (IReadOnlyList<Trip>)new List<Trip> {
+            _tripMapper.Map(kv.Value)
+        }))];
     }
 }

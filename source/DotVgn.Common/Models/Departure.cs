@@ -1,6 +1,6 @@
-using DotVgn.Data.Enumerations;
+using DotVgn.Common.Enumerations;
 
-namespace DotVgn.Data.Models;
+namespace DotVgn.Common.Models;
 
 /// <summary>
 /// Represents a specific departure from a station.

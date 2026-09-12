@@ -1,4 +1,4 @@
-namespace DotVgn.Data.Enumerations;
+namespace DotVgn.Common.Enumerations;
 
 /// <summary>
 /// All available transport types within the VGN.

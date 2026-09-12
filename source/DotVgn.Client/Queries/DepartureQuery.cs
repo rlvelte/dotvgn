@@ -1,5 +1,5 @@
 using DotVgn.Client.Queries.Base;
-using DotVgn.Data.Enumerations;
+using DotVgn.Common.Enumerations;
 
 namespace DotVgn.Client.Queries;
 
