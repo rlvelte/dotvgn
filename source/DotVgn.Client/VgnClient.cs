@@ -89,6 +89,19 @@ public sealed class VgnClient : ClientBase {
     }
 
     /// <summary>
+    /// Asynchronously retrieves all departures that match the specified <see cref="DepartureQuery"/> criteria, together with the name of the station.
+    /// </summary>
+    /// <param name="query">The criteria used to filter and select departures. Cannot be null.</param>
+    /// <param name="cancellation">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>The task result contains a tuple with the station name and a read-only list of <see cref="Departure"/> matching the query. The list will be empty if no departures are found.</returns>
+    public async Task<(string StationName, IReadOnlyList<Departure> Departures)> GetDeparturesWithStationAsync(DepartureQuery query, CancellationToken cancellation = default) {
+        ArgumentNullException.ThrowIfNull(query);
+
+        var response = await SendRequestAsync(VgnJsonContext.Default.DepartureResponseContract, query.GetRelativeUriExtension(), cancellation);
+        return (response.StationName, _departureMapper.Map(response.Departures));
+    }
+
+    /// <summary>
     /// Asynchronously retrieves all departures that match the specified <see cref="DepartureQuery"/> lists criteria.
     /// </summary>
     /// <param name="queries">The criteria used to filter and select departures. Cannot be null.</param>
