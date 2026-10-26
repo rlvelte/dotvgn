@@ -13,6 +13,12 @@ public record DepartureResponseContract {
     public required MetadataContract Metadata { get; init; }
 
     /// <summary>
+    /// The name of the station the departures belong to.
+    /// </summary>
+    [JsonPropertyName("Haltestellenname")]
+    public string StationName { get; init; } = string.Empty;
+
+    /// <summary>
     /// All departures that are responses for the query.
     /// </summary>
     [JsonPropertyName("Abfahrten")]

@@ -11,7 +11,6 @@
     <File Path="docs/index.md" />
   </Folder>
   <Folder Name="/Samples/">
-    <File Path="pack\rpm\vgn.spec" />
     <Project Path="samples\DotVgn.Samples.Monitor\DotVgn.Samples.Monitor.csproj" />
   </Folder>
   <Folder Name="/Packages/">

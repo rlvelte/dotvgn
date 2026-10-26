@@ -42,7 +42,8 @@ jobs:
       - name: Test & Coverage
         run: |
           dotnet test --no-build --configuration Release \
-            --collect:"XPlat Code Coverage" \
+            --coverage \
+            --coverage-output-format cobertura \
             --results-directory ./coverage-results
 
       - name: Pack NuGet (validation)

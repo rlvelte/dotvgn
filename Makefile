@@ -11,12 +11,13 @@ build: ## Build all projects (Release)
 
 test: build ## Run all tests with coverage
 	dotnet test --no-build --configuration $(CONFIGURATION) \
-		--collect:"XPlat Code Coverage" \
+		--coverage \
+		--coverage-output-format cobertura \
 		--results-directory ./$(TESTS_DIR)
 
 coverage: test ## Generate HTML coverage report
 	dotnet reportgenerator \
-		-reports:./$(TESTS_DIR)/**/coverage.cobertura.xml \
+		-reports:"./$(TESTS_DIR)/**/*.cobertura.xml" \
 		-targetdir:./$(TESTS_DIR) \
 		-reporttypes:Html \
 		-verbosity:Warning \
