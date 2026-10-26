@@ -3,8 +3,6 @@
 # DotVGN - .NET Client for VAG/VGN API
 ![NuGet](https://img.shields.io/nuget/v/DotVgn?label=DotVgn&style=flat)
 
-Lightweight .NET client for the VGN/VAG public transport API.
-
 > [!IMPORTANT]
 > If you are just here to use the departure monitor as a standalone tool on your system, there is also a packaged RPM on the [Open Build Service](https://build.opensuse.org/package/show/home:rvelte/vgn) for that.
 

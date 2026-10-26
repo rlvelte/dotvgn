@@ -22,8 +22,7 @@ public sealed class VgnClient : ClientBase {
     /// <param name="departureMapper">The mapper for departures.</param>
     /// <param name="tripMapper">The mapper for trips.</param>
     /// <param name="stationMapper">The mapper for stations.</param>
-    public VgnClient(HttpClient http, IDepartureMapper departureMapper, ITripMapper tripMapper, IStationMapper stationMapper)
-        : base(http) {
+    public VgnClient(HttpClient http, IDepartureMapper departureMapper, ITripMapper tripMapper, IStationMapper stationMapper) : base(http) {
         _stationMapper = stationMapper;
         _departureMapper = departureMapper;
         _tripMapper = tripMapper;
@@ -47,6 +46,7 @@ public sealed class VgnClient : ClientBase {
     /// <returns>The task result contains a read-only list of <see cref="Station"/> matching the query. The list will be empty if no stations are found.</returns>
     public async Task<IReadOnlyList<Station>> GetStationsAsync(StationQuery query, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(query);
+
         var path = query.GetRelativeUriExtension();
 
         var response = await SendRequestAsync(VgnJsonContext.Default.StationResponseContract, path, cancellation);
@@ -63,6 +63,7 @@ public sealed class VgnClient : ClientBase {
     /// <returns>The task result contains a tuple with the <see cref="StationQuery"/>> as a key and read-only list of <see cref="Station"/> as value. The list will be empty if no stations are found.</returns>
     public async Task<IReadOnlyList<(StationQuery Query, IReadOnlyList<Station> Stations)>> GetStationsAsync(IEnumerable<StationQuery> queries, CancellationToken cancellation = default) {
         ArgumentNullException.ThrowIfNull(queries);
+
         var list = queries.ToList();
         if (list.Count == 0) {
             throw new ArgumentException("Queries must not be null or empty.", nameof(queries));

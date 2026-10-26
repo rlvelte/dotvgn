@@ -28,6 +28,9 @@ install -Dm755 vgn %{buildroot}%{_bindir}/vgn
 %{_bindir}/vgn
 
 %changelog
+* Mon Oct 26 2026 Robin L. Velte <rlvelte@users.noreply.github.com> - 2.2.0-0
+- Update packages
+
 * Sun Sep 13 2026 Robin L. Velte <rlvelte@users.noreply.github.com> - 2.1.1-0
 - Show real station name when selecting a station by id
 

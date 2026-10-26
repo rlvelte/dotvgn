@@ -1,12 +1,12 @@
 using System.CommandLine;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using DotVgn.Client;
 using DotVgn.Client.Queries;
 using DotVgn.Common.Enumerations;
 using DotVgn.Common.Exceptions;
 using DotVgn.Common.Models;
 using Spectre.Console;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 return await MonitorCli.BuildRootCommand().Parse(args).InvokeAsync();
 
