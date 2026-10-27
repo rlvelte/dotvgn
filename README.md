@@ -3,9 +3,10 @@
 # DotVGN - .NET Client for VAG/VGN API
 ![NuGet](https://img.shields.io/nuget/v/DotVgn?label=DotVgn&style=flat)
 
+DotVGN is an unofficial .NET client package for accessing the VAG/VGN API of Nuremberg's public transport network. Query real-time departures, station details, and trips directly in your application. The library is AOT compatible and trimmable.
+
 > [!IMPORTANT]
 > If you are just here to use the departure monitor as a standalone tool on your system, there is also a packaged RPM on the [Open Build Service](https://build.opensuse.org/package/show/home:rvelte/vgn) for that.
-
 
 ## Table of Contents
 - [Install](#install)
