@@ -18,7 +18,7 @@
     <PackageVersion Include="MinVer" Version="8.0.0" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="Spectre.Console" Version="0.57.2" />
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
     <PackageVersion Include="xunit.v3" Version="4.0.2" />
     <PackageVersion Include="xunit.v3.runner.common" Version="4.0.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
