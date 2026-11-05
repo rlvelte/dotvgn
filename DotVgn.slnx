@@ -18,6 +18,11 @@
     <Project Path="source/DotVgn.Common/DotVgn.Common.csproj" />
     <Project Path="source\DotVgn.Client\DotVgn.Client.csproj" />
   </Folder>
+  <Folder Name="/Scripts/">
+    <File Path="scripts\publish.ps1" />
+    <File Path="scripts\publish.sh" />
+    <File Path="scripts\rpm.sh" />
+  </Folder>
   <Folder Name="/Tests/">
     <Project Path="tests/DotVgn.Tests.Analyzers/DotVgn.Tests.Analyzers.csproj" />
     <Project Path="tests/DotVgn.Tests.Client/DotVgn.Tests.Client.csproj" />

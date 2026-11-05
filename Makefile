@@ -1,50 +1,100 @@
-.PHONY: build test coverage pack format clean docs docs-serve sbom
+# In
+SOLUTION := ./DotVgn.slnx
+SAMPLES_DIR := ./samples
+CONFIGURATION ?= Release
+NUGET_PACKAGES_DIR ?=
 
-CONFIGURATION 		?= Release
-NUPKG_DIR     		?= nupkgs
-DOCFX_DIR     		?= docs
-TESTS_DIR  		    ?= TestResults
-STRYKER_DIR         ?= StrykerOutput
-SBOM_DIR       		?= build/sbom
+# Out
+RESULTS_DIR := ./build/tests
+NUPKG_DIR := ./build/nupkgs
+PUBLISH_DIR := ./build/publish
+RPM_DIR := ./build/rpm
+SBOM_DIR := ./build/sbom
 
-sbom: ## Generate dependency SBOM (CycloneDX JSON)
-	dotnet tool restore
-	dotnet cyclonedx DotVgn.slnx \
-		-o ./$(SBOM_DIR) \
+# OS
+ifeq ($(OS),Windows_NT)
+  RUN := pwsh -NoProfile -File
+  EXT := .ps1
+else
+  RUN := bash
+  EXT := .sh
+endif
+
+# Export
+export CONFIGURATION
+export SOLUTION
+export SAMPLES_DIR
+export PUBLISH_DIR
+export RPM_DIR
+
+# Main
+.DEFAULT_GOAL := build
+.PHONY: format restore sbom build test coverage pack publish rpm mutate
+
+format:
+	dotnet format whitespace $(SOLUTION) \
+		--verbosity diagnostic
+	dotnet format $(SOLUTION) \
+		--verbosity diagnostic
+
+restore:
+	dotnet restore $(SOLUTION) \
+		$(if $(NUGET_PACKAGES_DIR),--packages $(NUGET_PACKAGES_DIR),) \
+		--verbosity minimal
+
+sbom: restore
+	dotnet cyclonedx $(SOLUTION) \
+		-o $(SBOM_DIR) \
 		-F Json
 
-build: sbom ## Build all projects (Release)
-	dotnet build --configuration $(CONFIGURATION)
+build: restore
+	dotnet build $(SOLUTION) \
+		--configuration $(CONFIGURATION) \
+		--verbosity minimal
 
-test: build ## Run all tests with coverage
-	dotnet test --no-build --configuration $(CONFIGURATION) \
-		--coverage \
-		--coverage-output-format cobertura \
-		--results-directory ./$(TESTS_DIR)
+test: build
+	dotnet test --solution $(SOLUTION) \
+		--no-build \
+		--configuration $(CONFIGURATION) \
+		--results-directory $(RESULTS_DIR) \
+		-- --coverage --coverage-output-format cobertura --ignore-exit-code 8
 
-coverage: test ## Generate HTML coverage report
+coverage: test
 	dotnet reportgenerator \
-		-reports:"./$(TESTS_DIR)/**/*.cobertura.xml" \
-		-targetdir:./$(TESTS_DIR) \
+		-reports:$(RESULTS_DIR)/**/*.cobertura.xml \
+		-targetdir:$(RESULTS_DIR)/coverage \
 		-reporttypes:Html \
 		-verbosity:Warning \
-		-filefilters:-*RegexGenerator.g.cs*
-	@echo "Coverage report: file://$(CURDIR)/$(TESTS_DIR)/index.html"
+		-filefilters:-**/*.g.cs
+	@echo "file://$(CURDIR)/$(RESULTS_DIR)/coverage/index.html"
 
-pack: build ## Build NuGet packages
-	dotnet pack --no-restore --configuration $(CONFIGURATION) \
-		--output ./$(NUPKG_DIR)
+pack:
+	dotnet pack $(SOLUTION) \
+		--configuration $(CONFIGURATION) \
+		--output $(NUPKG_DIR) \
+		--verbosity minimal
 
-format: ## Auto-fix all code formatting (style, analyzers, whitespace)
-	dotnet format whitespace --verbosity diagnostic
-	dotnet format --verbosity diagnostic
+publish:
+	$(RUN) scripts/publish$(EXT)
 
-clean: ## Remove all build artifacts
-	dotnet clean
-	rm -rf ./$(STRYKER_DIR) ./$(TESTS_DIR) ./$(NUPKG_DIR) ./$(DOCFX_DIR)/_site ./$(DOCFX_DIR)/api
+rpm: publish
+ifeq ($(OS),Windows_NT)
+	@echo "RPM packaging requires 'rpmbuild'." >&2
+else
+	$(RUN) scripts/rpm$(EXT)
+endif
 
-docs: build ## Build documentation site
-	dotnet docfx $(DOCFX_DIR)/docfx.json
+# Documentation
+docs-build: build
+	dotnet docfx docs/docfx.json
 
-docs-serve: build ## Build and serve documentation locally (http://localhost:8080)
-	dotnet docfx $(DOCFX_DIR)/docfx.json --serve
+docs-serve: build
+	dotnet docfx docs/docfx.json --serve
+
+# Utility
+clean:
+ifeq ($(OS),Windows_NT)
+	pwsh -NoProfile -Command "Remove-Item -Recurse -Force -ErrorAction SilentlyContinue build, StrykerOutput, docs/_site, docs/api"
+else
+	rm -rf build StrykerOutput docs/_site docs/api
+endif
