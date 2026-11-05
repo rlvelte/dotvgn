@@ -1,0 +1,8 @@
+<Project>
+  <!-- AOT -->
+  <PropertyGroup>
+    <IsAotCompatible Condition="'$(IsPackable)' == 'true'">true</IsAotCompatible>
+    <IsTrimmable Condition="'$(IsPackable)' == 'true'">true</IsTrimmable>
+    <EnableTrimAnalyzer Condition="'$(IsPackable)' == 'true'">true</EnableTrimAnalyzer>
+  </PropertyGroup>
+</Project>
