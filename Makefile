@@ -1,12 +1,19 @@
-.PHONY: build test coverage pack format clean docs docs-serve
+.PHONY: build test coverage pack format clean docs docs-serve sbom
 
 CONFIGURATION 		?= Release
 NUPKG_DIR     		?= nupkgs
 DOCFX_DIR     		?= docs
 TESTS_DIR  		    ?= TestResults
 STRYKER_DIR         ?= StrykerOutput
+SBOM_DIR       		?= build/sbom
 
-build: ## Build all projects (Release)
+sbom: ## Generate dependency SBOM (CycloneDX JSON)
+	dotnet tool restore
+	dotnet cyclonedx DotVgn.slnx \
+		-o ./$(SBOM_DIR) \
+		-F Json
+
+build: sbom ## Build all projects (Release)
 	dotnet build --configuration $(CONFIGURATION)
 
 test: build ## Run all tests with coverage

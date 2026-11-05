@@ -1,0 +1,22 @@
+name: Pull request
+
+on:
+  pull_request:
+    branches: [develop, master]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'docs/**'
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Verify
+    uses: ./.github/workflows/dotnet.yml

@@ -1,0 +1,195 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Verify
+    uses: ./.github/workflows/dotnet.yml
+
+  publish:
+    name: Publish packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: check
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restore
+        run: dotnet restore DotVgn.slnx --locked-mode
+
+      - name: Pack NuGet
+        run: dotnet pack DotVgn.slnx --no-restore --configuration Release --output ./nupkgs
+
+      - name: Upload packages (artifact)
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: nupkgs
+          path: ./nupkgs/
+          retention-days: 14
+
+      - name: Push to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet nuget add source \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --name github \
+            --username ${{ github.repository_owner }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text
+
+          for pkg in ./nupkgs/*.nupkg; do
+            dotnet nuget push "$pkg" \
+              --source github \
+              --api-key "${{ secrets.GITHUB_TOKEN }}" \
+              --skip-duplicate
+          done
+
+  docs:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: check
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Build library (produces XML doc files)
+        run: |
+          dotnet restore DotVgn.slnx --locked-mode
+          dotnet build DotVgn.slnx --no-restore --configuration Release
+
+      - name: Build docs
+        run: |
+          dotnet tool restore
+          dotnet docfx docs/docfx.json
+
+      - name: Upload docs (artifact)
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: docs-site
+          path: docs/_site/
+          retention-days: 14
+
+      - name: Upload docs (Pages artifact)
+        uses: actions/upload-pages-artifact@5f327015a708106f6f1b7c9a633901af30fe80cb # v5
+
+  deploy-docs:
+    name: Deploy Docs to GitHub Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: docs
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [publish, docs]
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        env:
+          TAG_REF: ${{ github.ref_name }}
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 "$TAG_REF"^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            LOG=$(git log --oneline --no-decorate)
+          else
+            LOG=$(git log --oneline --no-decorate "$PREV_TAG..$TAG_REF")
+          fi
+          {
+            echo "### Changes in $TAG_REF"
+            echo ""
+            echo '```'
+            echo "$LOG"
+            echo '```'
+          } > ./CHANGELOG_SECTION.md
+          cat ./CHANGELOG_SECTION.md
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Generate dependency SBOM
+        run: |
+          dotnet tool restore
+          dotnet restore DotVgn.slnx --locked-mode
+          dotnet cyclonedx DotVgn.slnx -o ./build/sbom -F Json
+
+      - name: Download packages
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: nupkgs
+          path: ./nupkgs
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body_path: ./CHANGELOG_SECTION.md
+          files: |
+            ./nupkgs/*.nupkg
+            ./nupkgs/*.snupkg
+            ./build/sbom/bom.json
+          draft: false
+          prerelease: false

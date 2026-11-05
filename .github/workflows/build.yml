@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  push:
+    branches: [develop, master]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Verify
+    uses: ./.github/workflows/dotnet.yml
